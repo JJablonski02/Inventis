@@ -1,0 +1,59 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Inventis.UI.ViewModels"
+             xmlns:controls="using:Inventis.UI.Controls"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="700"
+             x:Class="Inventis.UI.Views.LoginView"
+             x:DataType="vm:LoginViewModel"
+             x:CompileBindings="True"
+             xmlns:res="using:MoyaCashdesk.UI.Resources"
+             >
+    <ScrollViewer>
+        <Border 
+            Background="{DynamicResource Background-Dark}"
+            CornerRadius="60"
+            MaxWidth="450"
+            MaxHeight="800"
+            MinHeight="450"
+            VerticalAlignment="Center"
+            Padding="10">
+
+            <Grid VerticalAlignment="Center" MaxWidth="350">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <controls:Input
+                    Grid.Row="0"
+                    Margin="0 0 0 10"
+                    Watermark="Nazwa u¿ytkownika"
+                    CustomText="{Binding Login, Mode=TwoWay}" />
+
+                <controls:Input
+                    Grid.Row="1"
+                    Margin="0 0 0 10"
+                    Watermark="Has³o"
+                    CustomText="{Binding Password, Mode=TwoWay}"
+                    IsPassword="True"
+                    KeyDown="HandleKeyDown"/>
+
+                <controls:ConfirmationButton
+                    Grid.Row="2"
+                    Text="Zaloguj siê"
+                    Command="{Binding HandleLoginCommand}"
+                    Margin="0 0 0 10"
+                    IsEnabled="{Binding ConfirmEnabled}"/>
+
+                <TextBlock
+                    Foreground="{DynamicResource White}"
+                    Grid.Row="3"
+                    Text="Inventis 1.0.0"/>
+            </Grid>
+        </Border>
+    </ScrollViewer>
+</UserControl>

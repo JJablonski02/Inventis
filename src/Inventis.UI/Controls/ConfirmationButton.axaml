@@ -1,0 +1,47 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="using:Inventis.UI.Controls"
+             mc:Ignorable="d" d:DesignWidth="250" d:DesignHeight="100"
+             x:Class="Inventis.UI.Controls.ConfirmationButton"
+             x:DataType="controls:ConfirmationButton"
+             Name="Root">
+    <UserControl.Styles>
+
+        <Style Selector="Button">
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="MinHeight" Value="{Binding #Root.MinHeight}"/>
+            <Setter Property="Height" Value="{Binding #Root.Height}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#fff" />
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="Button:pointerover /template/ ContentPresenter"> <!--Overriding pointer over for the button-->
+            <Setter Property="BorderBrush" Value="{DynamicResource Grey}" />
+        </Style>
+
+        <Style Selector="Button:disabled /template/ ContentPresenter">
+            <Setter Property="Opacity" Value="0.5"/>
+        </Style>
+
+        <Style Selector="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="Foreground" Value="#fff" />
+        </Style>
+    </UserControl.Styles>
+    <Button
+    Command="{Binding #Root.Command}"
+    CornerRadius="20"
+    Background="{DynamicResource Primary}"
+    IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource AncestorType=UserControl}}"
+    CommandParameter="{Binding #Root.CommandParameter}">
+        <StackPanel>
+            <TextBlock Text="{Binding #Root.Text}"></TextBlock>
+        </StackPanel>
+    </Button>
+</UserControl>

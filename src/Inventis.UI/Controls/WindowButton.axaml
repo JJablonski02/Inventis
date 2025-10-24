@@ -1,0 +1,40 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="90" d:DesignHeight="90"
+             x:Class="Inventis.UI.Controls.WindowButton"
+             x:Name="Root">
+        <UserControl.Resources>
+            <Style x:Key="CanvasMouseOverStyle" Selector="Canvas:pointerover">
+                <Setter Property="Background" Value="{DynamicResource WarningTransparent}"/>
+            </Style>
+            <DataTemplate x:Key="Minify">
+                <Canvas Width="30" Height="30" Background="{DynamicResource Background}">
+  <!--                  <Canvas.Styles>
+                        <StaticResource ResourceKey="CanvasMouseOverStyle"/>
+                    </Canvas.Styles>-->
+                    <Line StartPoint="8,15" EndPoint="22,15" Stroke="White" StrokeThickness="2"/>
+                </Canvas>
+            </DataTemplate>
+            <DataTemplate x:Key="Close">
+                <Canvas Width="30" Height="30" Background="{DynamicResource Danger}">
+   <!--                 <Canvas.Styles>
+                        <StaticResource ResourceKey="CanvasMouseOverStyle"/>
+                    </Canvas.Styles>-->
+                    <Line StartPoint="8,8" EndPoint="22,22" Stroke="White" StrokeThickness="2"/>
+                    <Line StartPoint="22,8" EndPoint="8,22" Stroke="White" StrokeThickness="2"/>
+                </Canvas>
+            </DataTemplate>
+        </UserControl.Resources>
+
+    <Button x:Name="ThisWindowButton"
+            Width="30"
+            Height="30"
+            Padding="0"
+            Command="{Binding #Root.Command}"
+            CommandParameter="{Binding #Root.CommandParameter}"
+            >
+        <ContentControl x:Name="IconContent"/>
+    </Button>
+</UserControl>

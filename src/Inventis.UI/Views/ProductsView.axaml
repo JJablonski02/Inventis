@@ -1,0 +1,39 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Inventis.UI.Views.ProductsView"
+             xmlns:controls="using:Inventis.UI.Controls"
+             xmlns:vm="using:Inventis.UI.ViewModels"
+             x:DataType="vm:ProductsViewModel">
+ <Grid RowDefinitions="Auto,*">
+        <!-- 🔹 Górny pasek z przyciskiem -->
+        <StackPanel Orientation="Horizontal" Margin="0 0 0 0">
+            <Border Padding="10">
+				<controls:ConfirmationButton
+                    Text="➕ Dodaj produkt"
+                    Command="{Binding AddProductCommand}"
+            />
+            </Border>
+        </StackPanel>
+
+        <!-- 🔹 Tabela produktów -->
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding Products}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  CanUserReorderColumns="True"
+                  HeadersVisibility="Column"
+                  RowHeight="32"
+                  >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
+                <DataGridTextColumn Header="EAN" Binding="{Binding EanCode}" Width="150" />
+                <DataGridTextColumn Header="Gross Sale Price" Binding="{Binding GrossSalePrice, StringFormat='{}{0:C}'}" Width="150" />
+                <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" Width="100" />
+                <DataGridTextColumn Header="Provider" Binding="{Binding ProviderName}" Width="150" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,5 @@
+<Project>
+  <ItemGroup Label="ConfigFiles">
+    <None Condition="Exists('$(EditorConfigFile)')" Include="$(EditorConfigFile)" Visible="false" />
+  </ItemGroup>
+</Project>

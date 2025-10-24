@@ -1,0 +1,148 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="1400" d:DesignHeight="1500"
+			 x:Class="Inventis.UI.Views.ProductView"
+			 xmlns:controls="using:Inventis.UI.Controls"
+			 xmlns:vm="using:Inventis.UI.ViewModels"
+			 xmlns:lang="using:Inventis.UI.Resources"
+			 x:DataType="vm:ProductViewModel">
+	<Grid RowDefinitions="Auto, *, Auto" Background="{DynamicResource Background}">
+		<Grid Grid.Row="0" Background="{DynamicResource Background-Dark}">
+			<Border
+			Padding="10"
+			HorizontalAlignment="Right">
+				<controls:WindowButton Variant="Close"
+									   CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
+			</Border>
+		</Grid>
+		<ScrollViewer Grid.Row="1" Focusable="True">
+			<Border Padding="24">
+				<Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="1*">
+
+					<!-- Sekcja: Dane podstawowe -->
+					<StackPanel Grid.Row="0" Margin="0 0 0 16">
+						<TextBlock Text="Dane produktu" FontSize="18" FontWeight="SemiBold" Margin="0 0 0 8"/>
+						<controls:FormInput Label="Id (ULID)" CustomText="{Binding Product.Id}" IsEnabled="False" />
+						<controls:FormInput Label="* Nazwa" CustomText="{Binding Product.Name}" />
+						<controls:FormInput Label="Opis" CustomText="{Binding Product.Description}" />
+						<Grid ColumnDefinitions="*, Auto, Auto" Margin="0 30 0 0">
+							<controls:FormInput
+							x:Name="EanInput"
+							Label="* Kod EAN"
+							VerticalAlignment="Center"
+							Grid.Column="0"
+							CustomText="{Binding Product.EanCode}" />
+							<controls:ConfirmationButton
+							Height="50"
+							VerticalAlignment="Center"
+							Text="Generuj nowy EAN"
+							Command="{Binding GenerateEanCommand}"
+							Margin="20 22 20 0"
+							Grid.Column="1"/>
+
+							<Border
+							Grid.Column="2"
+							BorderThickness="2"
+							BorderBrush="{DynamicResource Primary}"
+							Width="320"
+							Height="140">
+								<Border
+								Width="300"
+								Height="120">
+									<controls:BarcodeView
+									x:Name="BarcodePreview"/>
+								</Border>
+							</Border>
+						</Grid>
+					</StackPanel>
+
+					<!-- Sekcja: Ceny -->
+					<StackPanel Grid.Row="1" Margin="0 0 0 16">
+						<TextBlock Text="Ceny i wartoœci" FontSize="18" FontWeight="SemiBold" Margin="0 0 0 8"/>
+						<UniformGrid Columns="2" ColumnSpacing="16" RowSpacing="8">
+							<controls:FormInput
+							Label="* Cena zakupu netto"
+							Watermark="{x:Static lang:Captions.Lukasz}"
+							OnlyDigits="True"
+							DecimalPlaces="2"
+							LostFocusSuffix="{x:Static lang:Captions.PLN}"
+							CustomText="{Binding Product.NetPurchasePrice}" />
+							<controls:FormInput
+							Label="* Cena zakupu brutto"
+							Watermark="0.00z³"
+							OnlyDigits="True"
+							DecimalPlaces="2"
+							LostFocusSuffix="{x:Static lang:Captions.PLN}"
+							CustomText="{Binding Product.GrossPurchasePrice}" />
+							<controls:FormInput
+							Label="* Cena sprzeda¿y netto"
+							Watermark="0.00z³"
+							OnlyDigits="True"
+							DecimalPlaces="2"
+							LostFocusSuffix="{x:Static lang:Captions.PLN}"
+							CustomText="{Binding Product.NetSalePrice}" />
+							<controls:FormInput
+							Label="* Cena sprzeda¿y brutto"
+							Watermark="0.00z³"
+							OnlyDigits="True"
+							DecimalPlaces="2"
+							LostFocusSuffix="{x:Static lang:Captions.PLN}"
+							CustomText="{Binding Product.GrossSalePrice}" />
+							<controls:FormInput
+							Label="Iloœæ w sklepie"
+							Watermark="0szt"
+							LostFocusSuffix="szt"
+							OnlyDigits="True"
+							CustomText="{Binding Product.QuantityInStore}" />
+							<controls:FormInput
+							Label="Iloœæ na zapleczu"
+							Watermark="0szt"
+							LostFocusSuffix="szt"
+							OnlyDigits="True"
+							CustomText="{Binding Product.QuantityInBackroom}" />
+							<controls:FormInput
+							Label="Iloœæ w magazynie"
+							Watermark="0szt"
+							LostFocusSuffix="szt"
+							OnlyDigits="True"
+							CustomText="{Binding Product.QuantityInWarehouse}" />
+							<controls:FormInput
+							Label="Stawka VAT (%)"
+							Watermark="0%"
+							LostFocusSuffix="%"
+							OnlyDigits="True"
+							CustomText="{Binding Product.VatRate}" />
+
+							<controls:FormInput Label="Wartoœæ zakupu brutto (suma)" OnlyDigits="True" IsEnabled="False" CustomText="{Binding Product.TotalPurchaseGrossValue}" Margin="0 10 0 0" />
+							<controls:FormInput Label="Wartoœæ sprzeda¿y brutto (suma)" OnlyDigits="True" IsEnabled="False" CustomText="{Binding Product.TotalSaleGrossValue}" Margin="0 10 0 0" />
+						</UniformGrid>
+					</StackPanel>
+
+					<!-- Sekcja: Dostawca -->
+					<StackPanel Grid.Row="2" >
+						<TextBlock Text="Dostawca" FontSize="18" FontWeight="SemiBold" Margin="0 0 0 8"/>
+						<controls:FormInput Label="Nazwa dostawcy" CustomText="{Binding Product.ProviderName}" />
+						<controls:FormInput Label="Dane kontaktowe dostawcy" CustomText="{Binding Product.ProviderContactDetails}" />
+					</StackPanel>
+
+				</Grid>
+			</Border>
+		</ScrollViewer>
+		<Grid Grid.Row="3" Background="{DynamicResource Background-Dark}">
+			<StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Right">
+				<controls:ConfirmationButton
+				Text="Utwórz produkt i zamknij"
+				Command="{Binding SaveAndCloseCommand}"
+				Margin="0 0 10 0"
+			/>
+				<controls:ConfirmationButton
+				Text="Utwórz produkt i dodaj nastêpny"
+				Command="{Binding SaveAndClearCommand}"
+				Margin="10 0 0 0"
+			/>
+		</StackPanel>
+		</Grid>
+	</Grid>
+</UserControl>

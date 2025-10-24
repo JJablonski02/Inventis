@@ -1,0 +1,87 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.3.6" />
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.3.6" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.3.6" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.6" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.6" />
+    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+    <PackageReference Include="Avalonia.Diagnostics" Version="11.3.6">
+      <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
+      <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="BarcodeLib" Version="3.1.5" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.21">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Inventis.Application\Inventis.Application.csproj" />
+    <ProjectReference Include="..\Inventis.Infrastructure\Inventis.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Controls\FormInput.axaml.cs">
+      <DependentUpon>FormInput.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\Input.axaml.cs">
+      <DependentUpon>Input.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Controls\ConfirmationButton.axaml.cs">
+      <DependentUpon>ConfirmationButton.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\CaptionResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CaptionResources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Views\HomeView.axaml.cs">
+      <DependentUpon>HomeView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\InventoryView.axaml.cs">
+      <DependentUpon>InventoryView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ProductWindow.axaml.cs">
+      <DependentUpon>ProductWindow.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\ProductView.axaml.cs">
+      <DependentUpon>ProductView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\SalesView.axaml.cs">
+      <DependentUpon>SalesView.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\CaptionResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CaptionResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,73 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="using:MoyaCashdesk.UI.Views"
+        x:Class="Inventis.UI.Views.ErrorWindow"
+        Title="Inventis Error"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        SystemDecorations="None"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        Width="500"
+        Background="{DynamicResource Background}"
+        xmlns:converters="using:MoyaCashdesk.UI.Converters"
+        xmlns:controls="using:MoyaCashdesk.UI.Controls.Buttons"
+        CornerRadius="0"
+        Topmost="True"
+        >
+    <Grid RowDefinitions="Auto, *">
+        <Grid Grid.Row="0"
+              Background="{DynamicResource Background-Dark}"
+              Height="46"
+              HorizontalAlignment="Stretch"
+              >
+            <TextBlock Foreground="{DynamicResource White}"
+                       Text="Wyst¹pi³ b³¹d"
+                       FontSize="18"
+                       Margin="10 0 0 0"
+                       VerticalAlignment="Center"
+                       />
+        </Grid>
+        <Grid Grid.Row="1"
+                    RowDefinitions="*, Auto"
+                    Background="{DynamicResource Background-Dark}"
+                    HorizontalAlignment="Stretch">
+            <TextBlock
+                Grid.Row="0"
+                Name="ErrorText"
+                TextWrapping="Wrap"
+                FontSize="16"
+                Margin="0 0 0 10"
+                Padding="60,10"
+                HorizontalAlignment="Stretch"
+                TextAlignment="Left"
+                VerticalAlignment="Center"/>
+            <Grid Grid.Row="1" ColumnDefinitions="*">
+                <Button
+                    x:Name="PART_OK_BUTTON"
+                    Grid.Column="0"
+                    Margin="0 0 5 10"
+                    Content="Ok"
+                    FontSize="16"
+                    HorizontalAlignment="Center"
+                    Width="180"
+                    CornerRadius="10"
+                    Foreground="{DynamicResource White}"
+                    Background="{DynamicResource Primary}"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center"
+                    Height="48"
+                    Click="Close_OnClick">
+                    <Button.Styles>
+                        <Style Selector="Button:pointerover /template/ ContentPresenter">
+                            <Setter Property="Background" Value="#FF6666"/>
+                        </Style>
+                    </Button.Styles>
+                </Button>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

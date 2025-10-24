@@ -1,0 +1,38 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Inventis.UI.Styles;assembly=Inventis.UI">
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.Primary}">#FF7700</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.Secondary}">#FF03DAC5</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.Background}">#1E1E1E</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.BackgroundDark}">#252526</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.BackgroundLight}">#e6e6e6</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.MediumDark}">#555</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.White}">#fff</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.Black}">#000</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.Hover}">#00000080</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.Success}">#008000</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.Danger}">#e30613</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.Warning}">#FFA500</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.WarningTransparent}">#33FFA500</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.Red}">#E30613</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.Yellow}">#fadb3b</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.Blue}">#566dbd</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.Light}">#e2e2e2</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.LightGreen}">#c4db6c</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.DisabledGrey}">#bfbfbf</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.VeryLightGrey}">#b5b5b5</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.LightGrey}">#74798c</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.Grey}">#595959</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.GrayishBlue}">#5F667F</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.CheckboxChecked}">#00CCFF</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.KeyboardPointerOver}">#ddd</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.LightKeyboard}">#E8E8E8</SolidColorBrush>
+
+    <!-- Distributor colors -->
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.DistributorLightGrey}">#a5a5a5</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.DistributorGrey}">#595959</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.DistributorOrange}">#e36c09</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.DistributorDanger}">#4a0213</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.DistributorBlue}">#566dbd</SolidColorBrush>
+    <SolidColorBrush x:Key="{x:Static local:ColorNames.DistributorGreen}">#c4db6c</SolidColorBrush>
+</ResourceDictionary>

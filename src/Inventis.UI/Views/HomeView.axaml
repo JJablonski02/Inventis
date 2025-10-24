@@ -1,0 +1,24 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Inventis.UI.ViewModels"
+             xmlns:controls="using:Inventis.UI.Controls"
+             mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="700"
+             x:Class="Inventis.UI.Views.HomeView"
+             x:DataType="vm:HomeViewModel"
+             x:CompileBindings="True"
+             xmlns:res="using:MoyaCashdesk.UI.Resources"
+             >
+    <Grid ColumnDefinitions="*, 200" RowDefinitions="*"
+          Margin="20">
+
+        <ContentControl Grid.Column="0" Content="{Binding CurrentViewModel}" />
+
+        <StackPanel Grid.Column="1" Spacing="10" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+            <Button Content="Produkty" Command="{Binding OpenProductsCommand}" Height="50"/>
+            <Button Content="Sprzeda¿" Command="{Binding OpenSalesCommand}" Height="50"/>
+            <Button Content="Inwentaryzacja" Command="{Binding OpenInventoryCommand}" Height="50"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,35 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Inventis.UI.Views.InventoryView"
+             xmlns:vm="using:Inventis.UI.ViewModels"
+             x:DataType="vm:InventoryViewModel">
+     <DockPanel Margin="10">
+
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="0,0,0,10" Spacing="10">
+            <ComboBox Width="250"
+                      ItemsSource="{Binding SelectItems}"
+                      SelectedItem="{Binding SelectedItem}"/>
+            
+            <Button Content="Rozpocznij inwentaryzacjê"
+                    Command="{Binding OpenInventoryCommand}"
+                    Width="200"/>
+        </StackPanel>
+
+        <DataGrid ItemsSource="{Binding Inventory.Items}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="False"
+                  SelectionMode="Single">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Produkt" Binding="{Binding ProductName}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Oczekiwana iloœæ" Binding="{Binding ExpectedQuantity}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Aktualna iloœæ" Binding="{Binding Quantity}" />
+            </DataGrid.Columns>
+
+        </DataGrid>
+
+    </DockPanel>
+</UserControl>

@@ -1,0 +1,83 @@
+
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:controls="using:Inventis.UI.Controls"
+             xmlns:converter="using:MoyaCashdesk.UI.Converters"
+             mc:Ignorable="d" d:DesignWidth="250" d:DesignHeight="50"
+             x:Class="Inventis.UI.Controls.Input"
+             x:DataType="controls:Input"
+             Name="Root">
+
+    <UserControl.Styles>
+
+        <Style Selector="TextBox">
+            <Setter Property="Foreground" Value="{DynamicResource White}" />
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Padding" Value="10 5 40 5"/>
+            <Setter Property="BorderThickness" Value="0 0 0 1"/>
+            <Setter Property="CornerRadius" Value="0"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource Primary}"/>
+        </Style>
+
+        <Style Selector="TextBox:pointerover /template/ Border"> <!--Changing the default appearance of the control in the case of pointer over-->
+            <Setter Property="BorderBrush" Value="{DynamicResource Primary}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0 0 0 1"/>
+        </Style>
+
+        <Style Selector="TextBox:pressed /template/ Border">
+            <Setter Property="BorderBrush" Value="{DynamicResource Primary}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0 0 0 1"/>
+        </Style>
+
+        <Style Selector="TextBox:focus /template/ Border">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource Primary}"/>
+            <Setter Property="BorderThickness" Value="0 0 0 1"/>
+        </Style>
+
+        <Style Selector="TextBox /template/ TextBlock#PART_Watermark">
+            <Setter Property="Foreground" Value="{DynamicResource White}"/>
+        </Style>
+
+        <Style Selector="TextBox:pointerover /template/ TextBlock#PART_Watermark">
+            <Setter Property="Foreground" Value="{DynamicResource White}"/>
+        </Style>
+
+        <Style Selector="TextBox:pressed /template/ TextBlock#PART_Watermark">
+            <Setter Property="Foreground" Value="{DynamicResource White}"/>
+        </Style>
+
+        <Style Selector="TextBox:focus /template/ TextBlock#PART_Watermark">
+            <Setter Property="Foreground" Value="{DynamicResource White}"/>
+        </Style>
+
+    </UserControl.Styles>
+    <Grid>
+        <TextBox
+             Name="InputField"
+             Grid.Row="0"
+             FontSize="16"
+             Watermark="{Binding #Root.Watermark}"
+             Height="50"
+             TextAlignment="Start"
+             UseFloatingWatermark="False"
+             Text="{Binding #Root.CustomText, Mode=TwoWay}"
+             Foreground="{DynamicResource White}"
+             VerticalContentAlignment="Center"
+            />
+        <Canvas Name="InputCanvasFieldName" PointerPressed="OnCanvasPointerPressed">
+            <Path Data="M1,12 C1,12 5,3 12,3 C19,3 23,12 23,12 C23,12 19,21 12,21 C5,21 1,12 1,12 Z M12,8 C9.8,8 8,9.8 8,12 C8,14.2 9.8,16 12,16 C14.2,16 16,14.2 16,12 C16,9.8 14.2,8 12,8 Z M12,10 C13.1,10 14,10.9 14,12 C14,13.1 13.1,14 12,14 C10.9,14 10,13.1 10,12 C10,10.9 10.9,10 12,10 Z"
+                  Fill="Gray"
+                  Width="20"
+                  Height="20"
+                  VerticalAlignment="Center"
+                  Canvas.Right="15"
+                  Canvas.Top="12"/>
+        </Canvas>
+
+        </Grid>
+</UserControl>
