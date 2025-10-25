@@ -1,4 +1,4 @@
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Inventis.UI.ViewModels;
 
@@ -9,7 +9,7 @@ internal sealed partial class InventoryView : UserControl
     public InventoryView()
     {
         InitializeComponent();
-    }
+	}
 
 	protected override async void OnLoaded(RoutedEventArgs e)
 	{

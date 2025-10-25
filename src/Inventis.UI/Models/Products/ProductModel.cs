@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Inventis.Application.Products.Dtos;
 
 namespace Inventis.UI.Models.Products;
 
@@ -139,5 +140,39 @@ public partial class ProductModel : ObservableObject
 		}
 
 		return null;
+	}
+
+	public void FromDto(ProductDto dto)
+	{
+		Id = dto.Id;
+		Name = dto.Name;
+		Description = dto.Description;
+		EanCode = dto.EanCode;
+
+		NetPurchasePrice = $"{dto.NetPurchasePrice.ToString("N2", CultureInfo.CurrentCulture)}zł";
+		GrossPurchasePrice = $"{dto.GrossPurchasePrice.ToString("N2", CultureInfo.CurrentCulture)}zł";
+		NetSalePrice = $"{dto.NetSalePrice.ToString("N2", CultureInfo.CurrentCulture)}zł";
+		GrossSalePrice = $"{dto.GrossSalePrice.ToString("N2", CultureInfo.CurrentCulture)}zł";
+
+		TotalPurchaseGrossValue = $"{(dto.GrossPurchasePrice * dto.TotalQuantity).ToString("N2", CultureInfo.CurrentCulture)}zł";
+		TotalSaleGrossValue = $"{(dto.GrossSalePrice * dto.TotalQuantity).ToString("N2", CultureInfo.CurrentCulture)}zł";
+
+		QuantityInStore = $"{dto.QuantityInStore}szt";
+		QuantityInBackroom = $"{dto.QuantityInBackroom}szt";
+		QuantityInWarehouse = $"{dto.QuantityInWarehouse}szt";
+
+		ProviderName = dto.ProviderName;
+		ProviderContactDetails = dto.ProviderContactDetails;
+
+		NetPurchasePriceReal = dto.NetPurchasePrice;
+		GrossPurchasePriceReal = dto.GrossPurchasePrice;
+		NetSalePriceReal = dto.NetSalePrice;
+		GrossSalePriceReal = dto.GrossSalePrice;
+		QuantityInStoreReal = dto.QuantityInStore;
+		QuantityInBackroomReal = dto.QuantityInBackroom;
+		QuantityInWarehouseReal = dto.QuantityInWarehouse;
+		TotalPurchaseGrossValueReal = dto.GrossPurchasePrice * dto.TotalQuantity;
+		TotalSaleGrossValueReal = dto.GrossSalePrice * dto.TotalQuantity;
+		VatRateReal = dto.VatRate;
 	}
 }

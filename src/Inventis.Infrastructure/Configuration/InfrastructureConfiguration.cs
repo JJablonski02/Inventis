@@ -1,8 +1,10 @@
-﻿using Inventis.Domain.Identity.Repositories;
+﻿using Inventis.Domain.DailyInventoryReports.Repositories;
+using Inventis.Domain.Identity.Repositories;
 using Inventis.Domain.Inventories.Repositories;
 using Inventis.Domain.Products.Repositories;
 using Inventis.Infrastructure;
 using Inventis.Infrastructure.Configuration;
+using Inventis.Infrastructure.DailyInventoryReports.Repositories;
 using Inventis.Infrastructure.Identity.Repositories;
 using Inventis.Infrastructure.Inventories.Repositories;
 using Inventis.Infrastructure.Products.Repositories;
@@ -27,7 +29,9 @@ public static class InfrastructureConfiguration
 		.AddTransient<IReadInventoriesRepository, ReadWriteInventoriesRepository>()
 		.AddTransient<IReadWriteInventoriesRepository, ReadWriteInventoriesRepository>()
 		.AddTransient<IReadProductRepository, ReadWriteProductRepository>()
-		.AddTransient<IReadWriteProductRepository, ReadWriteProductRepository>();
+		.AddTransient<IReadWriteProductRepository, ReadWriteProductRepository>()
+		.AddTransient<IReadWriteDailyInventoryReportRepository, ReadWriteDailyInventoryReportRepository>()
+		.AddTransient<IReadDailyInventoryReportRepository, ReadWriteDailyInventoryReportRepository>();
 
 	private static IServiceCollection AddPostgresServer<TContext>(
 		this IServiceCollection serviceCollection,

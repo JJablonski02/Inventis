@@ -30,10 +30,10 @@ namespace Inventis.Infrastructure.Postgres.Migrations
                         .HasColumnType("character varying(26)");
 
                     b.Property<DateTime?>("ClosedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("IsClosed")
                         .HasColumnType("boolean");
@@ -90,13 +90,13 @@ namespace Inventis.Infrastructure.Postgres.Migrations
                         .HasColumnType("character varying(26)");
 
                     b.Property<DateTime?>("CompletedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<bool>("IsCompleted")
                         .HasColumnType("boolean");
 
                     b.Property<DateTime>("StartedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -129,7 +129,7 @@ namespace Inventis.Infrastructure.Postgres.Migrations
                         .HasColumnType("character varying(26)");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Description")
                         .HasMaxLength(250)
@@ -228,7 +228,7 @@ namespace Inventis.Infrastructure.Postgres.Migrations
                                 .HasColumnType("character varying(26)");
 
                             b1.Property<DateTime>("ScanTime")
-                                .HasColumnType("timestamp with time zone");
+                                .HasColumnType("timestamp without time zone");
 
                             b1.Property<uint>("Version")
                                 .IsConcurrencyToken()

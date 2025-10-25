@@ -31,7 +31,7 @@ public sealed class DailyInventoryReport : Entity
 				productId));
 	}
 
-	public void DeleteScan(Ulid scanId)
+	public void DeleteSoftScan(Ulid scanId)
 	{
 		var scanToDelete = _dailyScans.SingleOrDefault(y => y.Id == scanId)
 			?? throw new DomainException(
@@ -39,6 +39,16 @@ public sealed class DailyInventoryReport : Entity
 				"Provided scan identifier does not exist.");
 
 		scanToDelete.Delete();
+	}
+
+	public void DeleteScan(Ulid scanId)
+	{
+		var scanToDelete = _dailyScans.SingleOrDefault(y => y.Id == scanId)
+			?? throw new DomainException(
+				"DailyInventoryReport.MissingScan",
+				"Provided scan identifier does not exist.");
+
+		_dailyScans.Remove(scanToDelete);
 	}
 
 	public void CloseReport()

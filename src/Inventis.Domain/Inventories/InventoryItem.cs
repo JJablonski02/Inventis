@@ -27,6 +27,15 @@ public sealed class InventoryItem : Entity
 		decimal expectedQuantity)
 		=> new(productId, productName, expectedQuantity);
 
-	internal void AddQuantity(decimal quantity)
-		=> Quantity += quantity;
+	internal void IncreaseQuantity()
+	{
+		if (Quantity + 1 > ExpectedQuantity)
+		{
+			throw new InvalidOperationException(
+				$"Nie można zeskanować produktu '{ProductName}', " +
+				$"ponieważ w inwentaryzacji pozostało tylko {ExpectedQuantity - Quantity} szt.");
+		}
+
+		Quantity += 1;
+	}
 }

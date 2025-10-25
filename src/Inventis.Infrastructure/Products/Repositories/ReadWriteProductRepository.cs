@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Inventis.Application.Exceptions;
 using Inventis.Domain.Products;
 using Inventis.Domain.Products.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -27,4 +28,16 @@ internal sealed class ReadWriteProductRepository(
 	CancellationToken cancellationToken)
 	=> await dbContext.Set<Product>()
 	.AnyAsync(expression, cancellationToken);
+
+	public async Task<IReadOnlyCollection<Product>> GetAllAsync(CancellationToken cancellationToken)
+		=> await dbContext.Set<Product>()
+		.ToListAsync(cancellationToken);
+
+	public async Task<Product> GetByIdAsync(Ulid ProductId, CancellationToken cancellationToken)
+		=> await dbContext.Set<Product>()
+		.SingleOrDefaultAsync(prod => prod.Id == ProductId, cancellationToken)
+		?? throw new NotFoundException(nameof(Product));
+
+	public Task SaveChangesAsync(CancellationToken cancellationToken)
+		=> dbContext.SaveChangesAsync(cancellationToken);
 }

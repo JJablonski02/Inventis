@@ -19,4 +19,20 @@ internal sealed class ReadWriteDailyInventoryReportRepository(
 		Expression<Func<DailyInventoryReport, bool>> expression,
 		CancellationToken cancellationToken)
 		=> await dbContext.Set<DailyInventoryReport>().AnyAsync(expression, cancellationToken);
+
+	public async Task AddAndSaveChangesAsync(
+		DailyInventoryReport report,
+		CancellationToken cancellationToken)
+	{
+		await dbContext.Set<DailyInventoryReport>().AddAsync(report, cancellationToken);
+		await dbContext.SaveChangesAsync(cancellationToken);
+	}
+
+	public Task SaveChangesAsync(CancellationToken cancellationToken)
+		=> dbContext.SaveChangesAsync(cancellationToken);
+
+	public async Task<DailyInventoryReport> GetByIdAsync(Ulid id, CancellationToken cancellationToken)
+		=> (await dbContext.Set<DailyInventoryReport>()
+		.SingleOrDefaultAsync(report => report.Id == id, cancellationToken))
+		?? throw new NotFoundException(nameof(DailyInventoryReport));
 }

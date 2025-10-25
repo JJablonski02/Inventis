@@ -1,4 +1,5 @@
-﻿using Inventis.Application.Identity.Services;
+﻿using Inventis.Application.DailyInventoryReports.Services;
+using Inventis.Application.Identity.Services;
 using Inventis.Application.Inventories.Services;
 using Inventis.Application.Products.Services;
 
@@ -10,5 +11,7 @@ public static class ApplicationServicesConfiguration
 		this IServiceCollection services)
 		=> services.AddTransient<IIdentityService, IdentityService>()
 			.AddTransient<IInventoryService, InventoryService>()
-			.AddTransient<IProductService, ProductService>();
+			.AddTransient<IProductService, ProductService>()
+			.AddTransient<IDailyInventoryReportService, DailyInventoryReportService>()
+			.AddTransient<IDailyInventoryScanService, DailyInvnentoryScanService>();
 }

@@ -1,0 +1,91 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="600"
+			 x:Class="Inventis.UI.Views.PrintEanView"
+			 xmlns:controls="using:Inventis.UI.Controls"
+			 xmlns:vm="using:Inventis.UI.ViewModels"
+			 Height="600"
+			 Width="800"
+			 x:DataType="vm:PrintEanViewModel">
+	    <Grid RowDefinitions="Auto, Auto,*" Background="{DynamicResource Background}">
+
+            <Grid Grid.Row="0" Background="{DynamicResource Background-Dark}">
+			<Border
+			Padding="10"
+			HorizontalAlignment="Right">
+				<controls:WindowButton Variant="Close"
+									   Command="{Binding CloseWindowCommand}"/>
+			</Border>
+		</Grid>
+
+        <!-- Sekcja wyboru trybu drukowania -->
+        <StackPanel Orientation="Vertical" Grid.Row="1" Margin="20,20,20,10">
+            <TextBlock Text="Wybierz tryb drukowania:" FontSize="16" Margin="0,0,0,5"/>
+            <StackPanel Orientation="Horizontal" Spacing="20">
+                <RadioButton Content="Drukuj dla wszystkich produktów" 
+                             IsChecked="{Binding IsPrintAll}" />
+                <RadioButton Content="Drukuj tylko zaznaczone produkty" 
+                             IsChecked="{Binding IsPrintSelected}" />
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Sekcja ustawień drukowania -->
+        <ScrollViewer Grid.Row="2" Margin="20,20,20,10">
+            <StackPanel Orientation="Vertical" Spacing="10">
+
+                <!-- Drukuj wszystko -->
+                <StackPanel IsVisible="{Binding IsPrintAll}" Orientation="Vertical" Spacing="5">
+                    <TextBlock Text="Zostaną wydrukowane etykiety dla wszystkich produktów."/>
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <CheckBox Content="Produkty ze sklepu" IsChecked="{Binding PrintFromShop}"/>
+                        <CheckBox Content="Produkty z zaplecza" IsChecked="{Binding PrintFromBackroom}"/>
+                        <CheckBox Content="Produkty z magazynu" IsChecked="{Binding PrintFromWarehouse}"/>
+                    </StackPanel>
+
+                    <!-- DataGrid readonly dla wszystkich produktów -->
+                    <DataGrid ItemsSource="{Binding Products}" AutoGenerateColumns="False" HeadersVisibility="Column" RowHeight="32">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Produkt" Binding="{Binding Name}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="EAN" Binding="{Binding EanCode}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Ilość etykiet" Binding="{Binding LabelCount}" IsReadOnly="True"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <TextBlock Text="{Binding TotalLabels, StringFormat='Liczba etykiet do wydrukowania: {0}'}"/>
+                    <controls:ConfirmationButton Text="Drukuj wszystko" Command="{Binding PrintEanCodesCommand}" Width="200"/>
+                </StackPanel>
+
+                <!-- Drukuj zaznaczone -->
+                <StackPanel IsVisible="{Binding IsPrintSelected}" Orientation="Vertical" Spacing="5">
+                    <TextBlock Text="Zostaną wydrukowane etykiety tylko dla zaznaczonych produktów."/>
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <CheckBox Content="Produkty ze sklepu" IsChecked="{Binding PrintFromShop}"/>
+                        <CheckBox Content="Produkty z zaplecza" IsChecked="{Binding PrintFromBackroom}"/>
+                        <CheckBox Content="Produkty z magazynu" IsChecked="{Binding PrintFromWarehouse}"/>
+                    </StackPanel>
+
+                    <!-- DataGrid z możliwością zaznaczenia i LabelCount -->
+                    <DataGrid ItemsSource="{Binding SelectedProducts}" AutoGenerateColumns="False" HeadersVisibility="Column" RowHeight="32">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Produkt" Binding="{Binding Name}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="EAN" Binding="{Binding EanCode}" IsReadOnly="True"/>
+                            <DataGridTemplateColumn Header="Ilość etykiet">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                         <NumericUpDown Increment="1" Minimum="0" Maximum="100" Value="{Binding LabelCount, Mode=TwoWay}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <TextBlock Text="{Binding TotalLabels, StringFormat='Liczba etykiet do wydrukowania: {0}'}"/>
+                    <controls:ConfirmationButton Text="Drukuj zaznaczone" Command="{Binding PrintEanCodesCommand}" Width="200"/>
+                </StackPanel>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

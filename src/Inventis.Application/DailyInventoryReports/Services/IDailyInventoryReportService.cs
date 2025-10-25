@@ -1,4 +1,5 @@
 ﻿using Inventis.Application.DailyInventoryReports.Dtos;
+using Inventis.Domain.DailyInventoryReports;
 using Inventis.Domain.DailyInventoryReports.Repositories;
 using Inventis.Domain.Products.Repositories;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,12 +19,16 @@ internal sealed class DailyInventoryReportService(IServiceProvider serviceProvid
 	public async Task OpenDailyInventoryReport(CancellationToken cancellationToken)
 		=> await UseScopeAsync(async sp =>
 		{
-			var repo = sp.GetRequiredService<IReadWriteDailyInventoryReportRepository>();
+			var dailyInventoryReportRepository = sp.GetRequiredService<IReadWriteDailyInventoryReportRepository>();
 
-			if (await repo.AnyAsync(r => !r.IsClosed, cancellationToken))
+			if (await dailyInventoryReportRepository.AnyAsync(r => !r.IsClosed, cancellationToken))
 			{
-				throw new InvalidOperationException("Daily inventory report is already open.");
+				throw new InvalidOperationException("Dzienny raport jest już otwarty.");
 			}
+
+			var dailyInventoryReport = DailyInventoryReport.Create();
+
+			await dailyInventoryReportRepository.AddAndSaveChangesAsync(dailyInventoryReport, cancellationToken);
 		});
 
 	public async Task CloseDailyInventoryReport(CancellationToken cancellationToken)
@@ -36,6 +41,8 @@ internal sealed class DailyInventoryReportService(IServiceProvider serviceProvid
 			cancellationToken);
 
 			dailyInventoryReport.CloseReport();
+
+			await dailyInventoryReportRepository.SaveChangesAsync(cancellationToken);
 		});
 
 	public async Task<DailyInventoryReportDto> GetDailyInventoryReportAsync(
@@ -58,14 +65,18 @@ internal sealed class DailyInventoryReportService(IServiceProvider serviceProvid
 			return new(
 				dailyInventoryReport.Id,
 				dailyInventoryReport.CreatedAt,
-				[.. dailyInventoryReport.DailyScans.Select(scan =>
+				[.. dailyInventoryReport.DailyScans
+				.OrderByDescending(scan => scan.ScanTime)
+				.Select(scan =>
 			{
 				var product = products.Single(prod => prod.Id == scan.ProductId);
 
 				return new DailyInventoryScanDto(
 					scan.Id,
+					product.Id,
 					product.Name,
 					product.GrossSalePrice,
+					scan.IsDeleted,
 					scan.ScanTime);
 			})]);
 		});

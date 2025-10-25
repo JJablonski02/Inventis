@@ -27,4 +27,7 @@ internal sealed class ReadWriteInventoriesRepository(
 		CancellationToken cancellationToken)
 		=> await dbContext.Set<Inventory>()
 		.AnyAsync(expression, cancellationToken);
+
+	public async Task SaveChangesAsync(CancellationToken cancellationToken)
+		=> await dbContext.SaveChangesAsync(cancellationToken);
 }

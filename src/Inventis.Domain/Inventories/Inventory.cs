@@ -53,7 +53,16 @@ public sealed class Inventory : Entity
 			DateTime.Now);
 	}
 
-	public void Close()
+	public void AddScannedProduct(
+		Ulid productId)
+	{
+		var item = Items.SingleOrDefault(prod => prod.ProductId == productId)
+			?? throw new ArgumentException("Produkt nie należy do inwentaryzacji.");
+
+		item.IncreaseQuantity();
+	}
+
+	public void Complete()
 	{
 		if (IsCompleted)
 		{

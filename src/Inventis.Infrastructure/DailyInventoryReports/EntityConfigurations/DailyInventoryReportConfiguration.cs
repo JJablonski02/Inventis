@@ -18,9 +18,11 @@ internal sealed class DailyInventoryReportsConfiguration : IEntityTypeConfigurat
 			.IsRequired();
 
 		builder.Property(r => r.CreatedAt)
+			.HasColumnType("timestamp without time zone")
 			.IsRequired();
 
 		builder.Property(r => r.ClosedAt)
+			.HasColumnType("timestamp without time zone")
 			.IsRequired(false);
 
 		builder.OwnsMany(r => r.DailyScans, scan =>
@@ -48,6 +50,7 @@ internal sealed class DailyInventoryReportsConfiguration : IEntityTypeConfigurat
 				.IsRequired(false);
 
 			scan.Property(s => s.ScanTime)
+				.HasColumnType("timestamp without time zone")
 				.IsRequired();
 
 			scan.Property(x => x.Version)

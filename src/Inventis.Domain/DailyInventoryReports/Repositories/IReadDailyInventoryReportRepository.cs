@@ -7,6 +7,7 @@ namespace Inventis.Domain.DailyInventoryReports.Repositories;
 /// </summary>
 public interface IReadDailyInventoryReportRepository
 {
+	Task<DailyInventoryReport> GetByIdAsync(Ulid id, CancellationToken cancellationToken);
 	Task<DailyInventoryReport> SingleOrDefaultAsync(Expression<Func<DailyInventoryReport, bool>> expression, CancellationToken cancellationToken);
 	Task<bool> AnyAsync(Expression<Func<DailyInventoryReport, bool>> expression, CancellationToken cancellationToken);
 }

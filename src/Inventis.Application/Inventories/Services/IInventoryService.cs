@@ -1,4 +1,5 @@
-﻿using Inventis.Application.Inventories.Dtos;
+﻿using Inventis.Application.Exceptions;
+using Inventis.Application.Inventories.Dtos;
 using Inventis.Domain.Inventories;
 using Inventis.Domain.Inventories.Constants;
 using Inventis.Domain.Inventories.Dtos;
@@ -18,6 +19,11 @@ public interface IInventoryService
 		CancellationToken cancellationToken);
 
 	Task<InventoryDto> GetInventoryAsync(CancellationToken cancellationToken);
+
+	Task AddScannedProductAsync(string eanCode, CancellationToken cancellationToken);
+
+	Task CloseInventoryAsync(
+		CancellationToken cancellationToken);
 }
 
 internal sealed class InventoryService(IServiceProvider serviceProvider) : ScopedServiceBase(serviceProvider), IInventoryService
@@ -53,6 +59,51 @@ internal sealed class InventoryService(IServiceProvider serviceProvider) : Scope
 			var inventory = Inventory.Create(userId, userFullName, type, [.. items]);
 
 			await inventoriesRepository.AddAndSaveChangesAsync(inventory, cancellationToken);
+		});
+
+	public Task CloseInventoryAsync(CancellationToken cancellationToken)
+		=> UseScopeAsync(async (sc) =>
+		{
+			var inventoriesRepository = sc.GetRequiredService<IReadWriteInventoriesRepository>();
+			var inventory = await inventoriesRepository.SingleOrDefaultAsync(
+				y => !y.IsCompleted,
+				cancellationToken);
+
+			if (inventory is null)
+			{
+				throw new InvalidOperationException("Zamknięcie inwentaryzacji nie jest możliwe, ponieważ żadna inwentaryzacja nie jest aktualnie otwarta.");
+			}
+
+			inventory.Complete();
+
+			await inventoriesRepository.SaveChangesAsync(cancellationToken);
+		});
+
+	public Task AddScannedProductAsync(string eanCode, CancellationToken cancellationToken)
+		=> UseScopeAsync(async (sc) =>
+		{
+			var inventoriesRepository = sc.GetRequiredService<IReadWriteInventoriesRepository>();
+
+			var inventory = await inventoriesRepository.SingleOrDefaultAsync(
+				y => !y.IsCompleted,
+				cancellationToken);
+
+			if (inventory is null)
+			{
+				throw new InvalidOperationException("Dodanie zeskanowanego produktu nie jest możliwe, ponieważ żadna inwentaryzacja nie jest aktualnie otwarta.");
+			}
+
+			var productsRepository = sc.GetRequiredService<IReadProductRepository>();
+
+			var product = (await productsRepository.WhereAsync(
+				y => y.EanCode == eanCode,
+				cancellationToken))
+				.SingleOrDefault()
+				?? throw new NotFoundException("Product");
+
+			inventory.AddScannedProduct(product.Id);
+
+			await inventoriesRepository.SaveChangesAsync(cancellationToken);
 		});
 
 	private static async Task<IEnumerable<InventoryItemDto>> PrepareInventoryItems(
@@ -125,7 +176,9 @@ internal sealed class InventoryService(IServiceProvider serviceProvider) : Scope
 		}
 		else
 		{
-			items = products.Select(y => new InventoryItemDto(
+			items = products
+				.OrderByDescending(y => y.CreatedAt)
+				.Select(y => new InventoryItemDto(
 				y.Id,
 				y.Name,
 				y.QuantityInStore + y.QuantityInBackroom + y.QuantityInWarehouse));

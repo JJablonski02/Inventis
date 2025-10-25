@@ -16,6 +16,12 @@ internal sealed class WindowHandler : IWindowHandler
 		return errorWindow.ShowDialog(owner);
 	}
 
+	public void CloseWindow<TWindow>() where TWindow : Window
+	{
+		var window = GetOpenedWindow<TWindow>();
+		window.Close();
+	}
+
 	public Task OpenWindowAsDialog<TWindow, TOwner>(ViewModelBase viewModel, object? additionalParameters = null) where TWindow : Window, new() where TOwner : Window
 	{
 		var owner = GetOpenedWindow<TOwner>();
@@ -26,6 +32,30 @@ internal sealed class WindowHandler : IWindowHandler
 		var window = new TWindow { DataContext = viewModel };
 
 		return window.ShowDialog(owner);
+	}
+
+	public async Task<DialogResult> OpenDialogWindow<TOwner>(string message, int? height = null) where TOwner : Window
+	{
+		var owner = GetOpenedWindow<TOwner>();
+
+		var dialogWindow = new DialogWindow(message);
+		dialogWindow.SetHeight(height);
+		var result = await dialogWindow.ShowDialog<DialogResult>(owner);
+		dialogWindow.ResetHeight();
+
+		return result;
+	}
+
+	public async Task<TResult?> OpenWindowAsDialogWithResult<TWindow, TOwner, TResult>(ViewModelBase viewModel, object? additionalParameters = null)
+		where TWindow : Window, new() where TOwner : Window
+	{
+		var owner = GetOpenedWindow<TOwner>();
+		CheckIsWindowOpened<TWindow>();
+
+		viewModel.SetAdditionalParameters(additionalParameters);
+
+		var window = new TWindow { DataContext = viewModel };
+		return await window.ShowDialog<TResult>(owner);
 	}
 
 	private static Window GetOpenedWindow<TWindow>() where TWindow : Window

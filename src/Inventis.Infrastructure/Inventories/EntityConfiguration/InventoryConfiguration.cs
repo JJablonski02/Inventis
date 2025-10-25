@@ -28,9 +28,11 @@ internal sealed class InventoryConfiguration : IEntityTypeConfiguration<Inventor
 			.IsRequired();
 
 		builder.Property(i => i.StartedAt)
+			.HasColumnType("timestamp without time zone")
 			.IsRequired();
 
 		builder.Property(i => i.CompletedAt)
+			.HasColumnType("timestamp without time zone")
 			.IsRequired(false);
 
 		builder.Property(i => i.Type)

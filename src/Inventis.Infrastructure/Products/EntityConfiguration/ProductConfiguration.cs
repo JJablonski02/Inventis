@@ -76,6 +76,7 @@ internal sealed class ProductConfiguration : IEntityTypeConfiguration<Product>
 			.IsRequired();
 
 		builder.Property(p => p.CreatedAt)
+			.HasColumnType("timestamp without time zone")
 			.IsRequired();
 
 		builder.Property(x => x.Version)

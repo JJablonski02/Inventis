@@ -31,9 +31,6 @@ internal sealed partial class ProductView : UserControl
 			}
 		};
 
-		if (productViewModel.Product.EanCode is null)
-		{
-			productViewModel.GenerateEan();
-		}
+		productViewModel.OnLoaded();
 	}
 }

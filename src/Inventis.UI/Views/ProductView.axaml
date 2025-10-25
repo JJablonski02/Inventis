@@ -1,4 +1,4 @@
-<UserControl xmlns="https://github.com/avaloniaui"
+ï»¿<UserControl xmlns="https://github.com/avaloniaui"
 			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -6,7 +6,6 @@
 			 x:Class="Inventis.UI.Views.ProductView"
 			 xmlns:controls="using:Inventis.UI.Controls"
 			 xmlns:vm="using:Inventis.UI.ViewModels"
-			 xmlns:lang="using:Inventis.UI.Resources"
 			 x:DataType="vm:ProductViewModel">
 	<Grid RowDefinitions="Auto, *, Auto" Background="{DynamicResource Background}">
 		<Grid Grid.Row="0" Background="{DynamicResource Background-Dark}">
@@ -14,7 +13,7 @@
 			Padding="10"
 			HorizontalAlignment="Right">
 				<controls:WindowButton Variant="Close"
-									   CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
+									   Command="{Binding CloseWindowCommand}"/>
 			</Border>
 		</Grid>
 		<ScrollViewer Grid.Row="1" Focusable="True">
@@ -60,50 +59,50 @@
 
 					<!-- Sekcja: Ceny -->
 					<StackPanel Grid.Row="1" Margin="0 0 0 16">
-						<TextBlock Text="Ceny i wartoœci" FontSize="18" FontWeight="SemiBold" Margin="0 0 0 8"/>
+						<TextBlock Text="Ceny i wartoÅ›ci" FontSize="18" FontWeight="SemiBold" Margin="0 0 0 8"/>
 						<UniformGrid Columns="2" ColumnSpacing="16" RowSpacing="8">
 							<controls:FormInput
 							Label="* Cena zakupu netto"
-							Watermark="{x:Static lang:Captions.Lukasz}"
+							Watermark="0,00zÅ‚"
 							OnlyDigits="True"
 							DecimalPlaces="2"
-							LostFocusSuffix="{x:Static lang:Captions.PLN}"
+							LostFocusSuffix="zÅ‚"
 							CustomText="{Binding Product.NetPurchasePrice}" />
 							<controls:FormInput
 							Label="* Cena zakupu brutto"
-							Watermark="0.00z³"
+							Watermark="0,00zÅ‚"
 							OnlyDigits="True"
 							DecimalPlaces="2"
-							LostFocusSuffix="{x:Static lang:Captions.PLN}"
+							LostFocusSuffix="zÅ‚"
 							CustomText="{Binding Product.GrossPurchasePrice}" />
 							<controls:FormInput
-							Label="* Cena sprzeda¿y netto"
-							Watermark="0.00z³"
+							Label="* Cena sprzedaÅ¼y netto"
+							Watermark="0,00zÅ‚"
 							OnlyDigits="True"
 							DecimalPlaces="2"
-							LostFocusSuffix="{x:Static lang:Captions.PLN}"
+							LostFocusSuffix="zÅ‚"
 							CustomText="{Binding Product.NetSalePrice}" />
 							<controls:FormInput
-							Label="* Cena sprzeda¿y brutto"
-							Watermark="0.00z³"
+							Label="* Cena sprzedaÅ¼y brutto"
+							Watermark="0,00zÅ‚"
 							OnlyDigits="True"
 							DecimalPlaces="2"
-							LostFocusSuffix="{x:Static lang:Captions.PLN}"
+							LostFocusSuffix="zÅ‚"
 							CustomText="{Binding Product.GrossSalePrice}" />
 							<controls:FormInput
-							Label="Iloœæ w sklepie"
+							Label="IloÅ›Ä‡ w sklepie"
 							Watermark="0szt"
 							LostFocusSuffix="szt"
 							OnlyDigits="True"
 							CustomText="{Binding Product.QuantityInStore}" />
 							<controls:FormInput
-							Label="Iloœæ na zapleczu"
+							Label="IloÅ›Ä‡ na zapleczu"
 							Watermark="0szt"
 							LostFocusSuffix="szt"
 							OnlyDigits="True"
 							CustomText="{Binding Product.QuantityInBackroom}" />
 							<controls:FormInput
-							Label="Iloœæ w magazynie"
+							Label="IloÅ›Ä‡ w magazynie"
 							Watermark="0szt"
 							LostFocusSuffix="szt"
 							OnlyDigits="True"
@@ -115,8 +114,8 @@
 							OnlyDigits="True"
 							CustomText="{Binding Product.VatRate}" />
 
-							<controls:FormInput Label="Wartoœæ zakupu brutto (suma)" OnlyDigits="True" IsEnabled="False" CustomText="{Binding Product.TotalPurchaseGrossValue}" Margin="0 10 0 0" />
-							<controls:FormInput Label="Wartoœæ sprzeda¿y brutto (suma)" OnlyDigits="True" IsEnabled="False" CustomText="{Binding Product.TotalSaleGrossValue}" Margin="0 10 0 0" />
+							<controls:FormInput Label="WartoÅ›Ä‡ zakupu brutto (suma)" OnlyDigits="True" IsEnabled="False" CustomText="{Binding Product.TotalPurchaseGrossValue}" Margin="0 10 0 0" />
+							<controls:FormInput Label="WartoÅ›Ä‡ sprzedaÅ¼y brutto (suma)" OnlyDigits="True" IsEnabled="False" CustomText="{Binding Product.TotalSaleGrossValue}" Margin="0 10 0 0" />
 						</UniformGrid>
 					</StackPanel>
 
@@ -133,12 +132,13 @@
 		<Grid Grid.Row="3" Background="{DynamicResource Background-Dark}">
 			<StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Right">
 				<controls:ConfirmationButton
-				Text="Utwórz produkt i zamknij"
+				Text="{Binding SaveButtonText}"
 				Command="{Binding SaveAndCloseCommand}"
 				Margin="0 0 10 0"
 			/>
 				<controls:ConfirmationButton
-				Text="Utwórz produkt i dodaj nastêpny"
+				IsVisible="{Binding !IsUpdate}"
+				Text="UtwÃ³rz produkt i dodaj nastÄ™pny"
 				Command="{Binding SaveAndClearCommand}"
 				Margin="10 0 0 0"
 			/>

@@ -9,9 +9,10 @@ public sealed record ProductDto(
 	decimal GrossPurchasePrice,
 	decimal NetSalePrice,
 	decimal GrossSalePrice,
-	decimal TotalPurchaseGrossValue,
-	decimal TotalSaleGrossValue,
-	decimal Quantity,
+	decimal TotalQuantity,
+	decimal QuantityInStore,
+	decimal QuantityInBackroom,
+	decimal QuantityInWarehouse,
 	decimal VatRate,
 	string? ProviderName,
 	string? ProviderContactDetails);

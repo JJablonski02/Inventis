@@ -7,6 +7,7 @@ using Inventis.UI.Services;
 using Inventis.UI.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using QuestPDF.Infrastructure;
 
 namespace Inventis.UI.Configuration;
 
@@ -35,13 +36,18 @@ internal static class ServicesExtensions
 		.AddTransient<ProductsViewModel>()
 		.AddTransient<ProductViewModel>()
 		.AddTransient<SalesViewModel>()
-		.AddTransient<InventoryViewModel>();
+		.AddTransient<InventoryViewModel>()
+		.AddTransient<PrintEanViewModel>()
+		.AddTransient<EditScanRowViewModel>();
 
 	private static IServiceCollection AddHandlersConfiguration(this IServiceCollection services)
-		=> services.AddTransient<IWindowHandler, WindowHandler>();
+		=> services.AddTransient<IWindowHandler, WindowHandler>()
+		.AddTransient<IPrinterService, PrinterService>();
 
 	private static IServiceCollection ConfigureInfrastructure(this IServiceCollection services, IConfiguration configuration)
 	{
+		QuestPDF.Settings.License = LicenseType.Community;
+
 		services.AddSingleton(configuration);
 		services.Configure<InventisOptions>(configuration.BindFromSection);
 		services.RegisterInfrastructure();

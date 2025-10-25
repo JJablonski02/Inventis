@@ -32,6 +32,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
+    <PackageReference Include="QuestPDF" Version="2025.7.3" />
+    <PackageReference Include="System.Drawing.Common" Version="9.0.10" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,16 +51,23 @@
     <Compile Update="Controls\ConfirmationButton.axaml.cs">
       <DependentUpon>ConfirmationButton.axaml</DependentUpon>
     </Compile>
-    <Compile Update="Resources\CaptionResources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>CaptionResources.resx</DependentUpon>
-    </Compile>
     <Compile Update="Views\HomeView.axaml.cs">
       <DependentUpon>HomeView.axaml</DependentUpon>
     </Compile>
     <Compile Update="Views\InventoryView.axaml.cs">
       <DependentUpon>InventoryView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\EditScanRowWindow.axaml.cs">
+      <DependentUpon>EditScanRowWindow.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\EditScanRowView.axaml.cs">
+      <DependentUpon>EditScanRowView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\PrintEanWindow.axaml.cs">
+      <DependentUpon>PrintEanWindow.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\PrintEanView.axaml.cs">
+      <DependentUpon>PrintEanView.axaml</DependentUpon>
     </Compile>
     <Compile Update="Views\ProductWindow.axaml.cs">
       <DependentUpon>ProductWindow.axaml</DependentUpon>
@@ -69,13 +78,6 @@
     <Compile Update="Views\SalesView.axaml.cs">
       <DependentUpon>SalesView.axaml</DependentUpon>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Resources\CaptionResources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>CaptionResources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

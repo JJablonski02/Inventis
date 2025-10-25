@@ -5,6 +5,10 @@ using Inventis.UI.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+#if WINDOWS
+using Inventis.Windows;
+#endif
+
 namespace Inventis.UI;
 
 internal sealed class Program
