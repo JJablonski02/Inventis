@@ -32,10 +32,12 @@
                         <Grid ColumnDefinitions="Auto, Auto" Grid.Column="2" HorizontalAlignment="Right">
                             <controls:WindowButton Variant="Minify" Margin="0 0 5 0"
                                                    Grid.Column="0"
+                                                   Command="{Binding $parent[ContentControl].((vm:MainViewModel)DataContext).MinifyWindowCommand}"
                                                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
                                                    />
                             <controls:WindowButton Variant="Close" Margin="5 0 0 0"
                                                    Grid.Column="1"
+                                                   Command="{Binding $parent[ContentControl].((vm:MainViewModel)DataContext).CloseWindowCommand}"
                                                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"
                                                    />
                         </Grid>
@@ -58,8 +60,10 @@
                             Margin="0 0 20 0"/>
                         <StackPanel Grid.Column="2" HorizontalAlignment="Right" Orientation="Horizontal">
                             <controls:WindowButton Variant="Minify" Margin="0 0 5 0"
+                                                   Command="{Binding $parent[ContentControl].((vm:MainViewModel)DataContext).MinifyWindowCommand}"
                                                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
                             <controls:WindowButton Variant="Close" Margin="5 0 0 0"
+                                                   Command="{Binding $parent[ContentControl].((vm:MainViewModel)DataContext).CloseWindowCommand}"
                                                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
                         </StackPanel>
                     </Grid>

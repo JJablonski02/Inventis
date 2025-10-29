@@ -1,14 +1,26 @@
-﻿using Avalonia.Threading;
+﻿using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Threading;
+using Avalonia.VisualTree;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Inventis.UI.Controls;
+using Inventis.UI.Handlers;
+using Inventis.UI.Handlers.Interfaces;
 using Inventis.UI.Models;
 using Inventis.UI.Router;
+using Inventis.UI.Views;
+using Tmds.DBus.Protocol;
 
 namespace Inventis.UI.ViewModels;
 
 internal sealed partial class MainViewModel : ViewModelBase
 {
+	private readonly IWindowHandler _windowHandler;
+
 	public MainViewModel(
 		IHistoryRouter<ViewModelBase> historyRouter,
+		IWindowHandler windowHandler,
 		UiState uiState)
 	{
 		// Registers the event for the current ViewModel change in the router,
@@ -16,6 +28,7 @@ internal sealed partial class MainViewModel : ViewModelBase
 		historyRouter.CurrentViewModelChanged += viewModel => Content = viewModel;
 		InitializeTimer();
 		UiState = uiState;
+		_windowHandler = windowHandler;
 		historyRouter.GoTo<LoginViewModel>();
 	}
 
@@ -54,5 +67,24 @@ internal sealed partial class MainViewModel : ViewModelBase
 	private void UpdateTime()
 	{
 		TitleBar.CurrentTime = DateTime.Now.ToString("HH:mm ddd d MMMM yyyy");
+	}
+
+	[RelayCommand]
+	public async Task CloseWindow()
+	{
+		var result = await _windowHandler.OpenDialogWindow<MainWindow>("Czy chcesz zamknąć program?");
+		if (result == DialogResult.Yes && Avalonia.Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime classicDesktop)
+		{
+			classicDesktop.Shutdown();
+		}
+	}
+
+	[RelayCommand]
+	private void MinifyWindow(object sender)
+	{
+		if ((sender as WindowButton)?.GetVisualRoot() is Window window)
+		{
+			window.WindowState = WindowState.Minimized;
+		}
 	}
 }
