@@ -35,13 +35,15 @@ internal sealed class DailyInvnentoryScanService(IServiceProvider serviceProvide
 			var productsRepository =
 				scope.GetRequiredService<IReadProductRepository>();
 
-			var product = (await productsRepository.WhereAsync(
+			var product = (await productsRepository.WhereWithLogsAsync(
 				y => y.EanCode == eanCode,
 				cancellationToken))
 				.SingleOrDefault()
 				?? throw new NotFoundException("Product");
 
-			dailyInventoryReport.AddScan(product.Id);
+			var scanId = dailyInventoryReport.AddScan(product.Id);
+
+			product.DecreaseSingleQuantityAutomatically(scanId);
 
 			await dailyInventoryReportRepository.SaveChangesAsync(cancellationToken);
 		});
@@ -52,12 +54,22 @@ internal sealed class DailyInvnentoryScanService(IServiceProvider serviceProvide
 			var dailyInventoryReportRepository =
 				scope.GetRequiredService<IReadWriteDailyInventoryReportRepository>();
 
+			var productRepository =
+				scope.GetRequiredService<IReadWriteProductRepository>();
+
 			var dailyInventoryReport = await dailyInventoryReportRepository
 					.SingleOrDefaultAsync(report => !report.IsClosed, cancellationToken)
 					?? throw new NotFoundException(nameof(DailyInventoryReport));
 
+			var product = (await productRepository.WhereWithLogsAsync(product => product.InventoryMovementLogs.Any(log => log.ScanId == scanId), cancellationToken))
+				.SingleOrDefault()
+				?? throw new InvalidOperationException("Nie znaleziono produktu z powiązanym wpisem");
+
+			product.IncreaseSingleQuantity(scanId);
+
 			dailyInventoryReport.DeleteScan(scanId);
 
+			await productRepository.SaveChangesAsync(cancellationToken);
 			await dailyInventoryReportRepository.SaveChangesAsync(cancellationToken);
 		});
 

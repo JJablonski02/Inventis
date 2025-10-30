@@ -27,6 +27,15 @@ internal sealed partial class ProductsViewModel(
 		var viewModel = service.ServiceProvider.GetRequiredService<ProductViewModel>();
 
 		await windowHandler.OpenWindowAsDialog<ProductWindow, MainWindow>(viewModel);
+
+		var products = await productService.GetAllAsync(CancellationToken.None);
+
+		Products.Clear();
+
+		foreach (var product in products)
+		{
+			Products.Add(product);
+		}
 	}
 
 	[RelayCommand]
@@ -83,9 +92,28 @@ internal sealed partial class ProductsViewModel(
 		}
 	}
 
+	[RelayCommand]
+	public async Task OpenInventoryMovementLog(object? productId)
+	{
+		if (productId is not Ulid validProductId)
+		{
+			await windowHandler.OpenDialogErrorWindow<MainWindow>("Niepoprawny identyfikator wybranego skanu.");
+			return;
+		}
+
+
+		var service = serviceProvider.CreateScope();
+
+		var viewModel = service.ServiceProvider.GetRequiredService<InventoryMovementLogViewModel>();
+
+		await windowHandler.OpenWindowAsDialog<InventoryMovementLogWindow, MainWindow>(viewModel, validProductId);
+	}
+
 	public async Task OnLoaded(CancellationToken cancellationToken)
 	{
 		var products = await productService.GetAllAsync(cancellationToken);
+
+		Products.Clear();
 
 		foreach (var product in products)
 		{

@@ -1,4 +1,5 @@
-﻿using Inventis.Application.Exceptions;
+﻿using System.ComponentModel;
+using Inventis.Application.Exceptions;
 using Inventis.Application.Identity.Services;
 using Inventis.UI.Handlers.Interfaces;
 using Inventis.UI.Models;
@@ -11,6 +12,11 @@ namespace Inventis.UI.Services;
 /// </summary>
 internal interface ISessionService
 {
+	/// <summary>
+	/// Event triggered when a property changes, allowing subscribers to react to changes in the service state.
+	/// </summary>
+	event PropertyChangedEventHandler? PropertyChanged;
+
 	public CurrentUser? CurrentUser { get; }
 
 	Task<bool> LoginAsync(string username, string password, CancellationToken cancellationToken);
@@ -20,7 +26,31 @@ internal sealed class SessionService(
 	IIdentityService identityService,
 	IWindowHandler windowHandler) : ISessionService
 {
-	public CurrentUser? CurrentUser { get; private set; }
+	/// <summary>
+	/// Event triggered when a property changes.
+	/// </summary>
+	public event PropertyChangedEventHandler? PropertyChanged;
+
+	private CurrentUser? _currentUser;
+
+	/// <summary>
+	/// Property representing the currently logged-in user.
+	/// Returns null if no user is logged in.
+	/// </summary>
+	public CurrentUser? CurrentUser
+	{
+		get => _currentUser;
+		private set
+		{
+			if (_currentUser == value)
+			{
+				return;
+			}
+
+			_currentUser = value;
+			OnPropertyChanged(nameof(CurrentUser));
+		}
+	}
 
 	public async Task<bool> LoginAsync(
 		string username,
@@ -54,4 +84,11 @@ internal sealed class SessionService(
 			return false;
 		}
 	}
+
+	/// <summary>
+	/// Raises the PropertyChanged event for the specified property.
+	/// </summary>
+	/// <param name="propertyName">The name of the property that changed.</param>
+	private void OnPropertyChanged(string propertyName)
+		=> PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 }

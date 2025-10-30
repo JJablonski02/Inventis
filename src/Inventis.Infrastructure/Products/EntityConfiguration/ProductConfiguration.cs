@@ -59,25 +59,30 @@ internal sealed class ProductConfiguration : IEntityTypeConfiguration<Product>
 			.HasPrecision(16, 2)
 			.IsRequired();
 
-		builder.Property(p => p.QuantityInBackroom)
+		builder.Property(p => p.StoredQuantityInBackroom)
 			.HasPrecision(8, 2)
 			.IsRequired();
 
-		builder.Property(p => p.QuantityInWarehouse)
+		builder.Property(p => p.StoredQuantityInWarehouse)
 			.HasPrecision(8, 2)
 			.IsRequired();
 
-		builder.Property(p => p.QuantityInStore)
+		builder.Property(p => p.StoredQuantityInStore)
 			.HasPrecision(8, 2)
 			.IsRequired();
 
-		builder.Property(p => p.VatRate)
+		builder.Property(p => p.PurchasePriceVatRate)
 			.HasPrecision(5, 2)
 			.IsRequired();
 
 		builder.Property(p => p.CreatedAt)
 			.HasColumnType("timestamp without time zone")
 			.IsRequired();
+
+		builder.HasMany(x => x.InventoryMovementLogs)
+			.WithOne(y => y.Product)
+			.HasForeignKey(d => d.ProductId)
+			.OnDelete(DeleteBehavior.Cascade);
 
 		builder.Property(x => x.Version)
 			.IsRowVersion();

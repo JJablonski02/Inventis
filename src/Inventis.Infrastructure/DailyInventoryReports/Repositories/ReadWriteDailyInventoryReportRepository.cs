@@ -35,4 +35,7 @@ internal sealed class ReadWriteDailyInventoryReportRepository(
 		=> (await dbContext.Set<DailyInventoryReport>()
 		.SingleOrDefaultAsync(report => report.Id == id, cancellationToken))
 		?? throw new NotFoundException(nameof(DailyInventoryReport));
+
+	public async Task<IReadOnlyCollection<DailyInventoryReport>> GetAllAsync(CancellationToken cancellationToken)
+		=> await dbContext.Set<DailyInventoryReport>().ToListAsync(cancellationToken);
 }

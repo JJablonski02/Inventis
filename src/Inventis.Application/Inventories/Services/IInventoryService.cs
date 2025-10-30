@@ -118,34 +118,34 @@ internal sealed class InventoryService(IServiceProvider serviceProvider) : Scope
 		if (type == InventoryType.Total)
 		{
 			products = [.. (await productsRepository.WhereAsync(
-				y => y.QuantityInBackroom > 0 ||
-					 y.QuantityInStore > 0 ||
-					 y.QuantityInWarehouse > 0,
+				y => y.StoredQuantityInBackroom > 0 ||
+					 y.StoredQuantityInStore > 0 ||
+					 y.StoredQuantityInWarehouse > 0,
 				cancellationToken))];
 		}
 		else if (type == InventoryType.StoreAndBackroom)
 		{
 			products = [.. (await productsRepository.WhereAsync(
-				y => y.QuantityInStore > 0 ||
-					 y.QuantityInBackroom > 0,
+				y => y.StoredQuantityInStore > 0 ||
+					 y.StoredQuantityInBackroom > 0,
 				cancellationToken))];
 		}
 		else if (type == InventoryType.Store)
 		{
 			products = [.. (await productsRepository.WhereAsync(
-				y => y.QuantityInStore > 0,
+				y => y.StoredQuantityInStore > 0,
 				cancellationToken))];
 		}
 		else if (type == InventoryType.Backroom)
 		{
 			products = [.. (await productsRepository.WhereAsync(
-				y => y.QuantityInBackroom > 0,
+				y => y.StoredQuantityInBackroom > 0,
 				cancellationToken))];
 		}
 		else if (type == InventoryType.Warehouse)
 		{
 			products = [.. (await productsRepository.WhereAsync(
-				y => y.QuantityInWarehouse > 0,
+				y => y.StoredQuantityInWarehouse > 0,
 				cancellationToken))];
 		}
 		else
@@ -157,22 +157,22 @@ internal sealed class InventoryService(IServiceProvider serviceProvider) : Scope
 
 		if (type == InventoryType.Store)
 		{
-			items = products.Select(y => new InventoryItemDto(y.Id, y.Name, y.QuantityInStore));
+			items = products.Select(y => new InventoryItemDto(y.Id, y.Name, y.StoredQuantityInStore));
 		}
 		else if (type == InventoryType.Backroom)
 		{
-			items = products.Select(y => new InventoryItemDto(y.Id, y.Name, y.QuantityInBackroom));
+			items = products.Select(y => new InventoryItemDto(y.Id, y.Name, y.StoredQuantityInBackroom));
 		}
 		else if (type == InventoryType.Warehouse)
 		{
-			items = products.Select(y => new InventoryItemDto(y.Id, y.Name, y.QuantityInWarehouse));
+			items = products.Select(y => new InventoryItemDto(y.Id, y.Name, y.StoredQuantityInWarehouse));
 		}
 		else if (type == InventoryType.StoreAndBackroom)
 		{
 			items = products.Select(y => new InventoryItemDto(
 				y.Id,
 				y.Name,
-				y.QuantityInStore + y.QuantityInBackroom));
+				y.StoredQuantityInStore + y.StoredQuantityInBackroom));
 		}
 		else
 		{
@@ -181,7 +181,7 @@ internal sealed class InventoryService(IServiceProvider serviceProvider) : Scope
 				.Select(y => new InventoryItemDto(
 				y.Id,
 				y.Name,
-				y.QuantityInStore + y.QuantityInBackroom + y.QuantityInWarehouse));
+				y.StoredQuantityInStore + y.StoredQuantityInBackroom + y.StoredQuantityInWarehouse));
 		}
 
 		return items;

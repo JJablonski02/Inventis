@@ -1,4 +1,6 @@
-﻿using Inventis.Application.DailyInventoryReports.Dtos;
+﻿using System.Linq;
+using Inventis.Application.DailyInventoryReports.Dtos;
+using Inventis.Application.Exceptions;
 using Inventis.Domain.DailyInventoryReports;
 using Inventis.Domain.DailyInventoryReports.Repositories;
 using Inventis.Domain.Products.Repositories;
@@ -9,6 +11,8 @@ namespace Inventis.Application.DailyInventoryReports.Services;
 public interface IDailyInventoryReportService
 {
 	Task<DailyInventoryReportDto> GetDailyInventoryReportAsync(CancellationToken cancellationToken);
+
+	Task<IReadOnlyCollection<DailyInventoryReportDto>> GetAllAsync(CancellationToken cancellationToken);
 	Task OpenDailyInventoryReport(CancellationToken cancellationToken);
 	Task CloseDailyInventoryReport(CancellationToken cancellationToken);
 }
@@ -35,10 +39,23 @@ internal sealed class DailyInventoryReportService(IServiceProvider serviceProvid
 		=> await UseScopeAsync(async sp =>
 		{
 			var dailyInventoryReportRepository = sp.GetRequiredService<IReadWriteDailyInventoryReportRepository>();
+			var productsRepository = sp.GetRequiredService<IReadProductRepository>();
 
 			var dailyInventoryReport = await dailyInventoryReportRepository.SingleOrDefaultAsync(
 			y => !y.IsClosed,
 			cancellationToken);
+
+			var productIds = dailyInventoryReport.DailyScans
+				.Select(scan => scan.ProductId)
+				.Distinct()
+				.ToArray();
+
+			var products = await productsRepository.WhereWithLogsAsync(product => productIds.Contains(product.Id), cancellationToken);
+
+			foreach (var item in products)
+			{
+				item.ReconcileInventory(dailyInventoryReport.CreatedAt);
+			}
 
 			dailyInventoryReport.CloseReport();
 
@@ -65,6 +82,7 @@ internal sealed class DailyInventoryReportService(IServiceProvider serviceProvid
 			return new(
 				dailyInventoryReport.Id,
 				dailyInventoryReport.CreatedAt,
+				dailyInventoryReport.ClosedAt,
 				[.. dailyInventoryReport.DailyScans
 				.OrderByDescending(scan => scan.ScanTime)
 				.Select(scan =>
@@ -79,5 +97,21 @@ internal sealed class DailyInventoryReportService(IServiceProvider serviceProvid
 					scan.IsDeleted,
 					scan.ScanTime);
 			})]);
+		});
+
+	public async Task<IReadOnlyCollection<DailyInventoryReportDto>> GetAllAsync(CancellationToken cancellationToken)
+		=> await UseScopeAsync(async (sp) =>
+		{
+			var dailyInventoryReportRepository = sp.GetRequiredService<IReadDailyInventoryReportRepository>();
+
+			var reports = await dailyInventoryReportRepository.GetAllAsync(cancellationToken);
+
+			return reports.Select(report => new DailyInventoryReportDto(
+				report.Id,
+				report.CreatedAt,
+				report.ClosedAt,
+				[]))
+			.OrderByDescending(y => y.CreatedAt)
+			.ToList();
 		});
 }

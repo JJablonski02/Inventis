@@ -22,17 +22,26 @@
                     VerticalAlignment="Top">
             <controls:ConfirmationButton 
             Text="Sprzedaż" 
-            Command="{Binding OpenSalesCommand}" 
+            Command="{Binding OpenSalesCommand}"
+            Background="{Binding SalesButtonColor}"
             Width="150"
             Height="120"/>
             <controls:ConfirmationButton 
             Text="Produkty" 
             Command="{Binding OpenProductsCommand}"
+            Background="{Binding ProductsButtonColor}"
             Width="150"
             Height="120"/>
             <controls:ConfirmationButton 
             Text="Inwentaryzacja" 
-            Command="{Binding OpenInventoryCommand}" 
+            Command="{Binding OpenInventoryCommand}"
+            Background="{Binding InventoryButtonColor}"
+            Width="150"
+            Height="120"/>
+            <controls:ConfirmationButton 
+            Text="Raporty" 
+            Command="{Binding OpenReportsCommand}"
+            Background="{Binding ReportsButtonColor}"
             Width="150"
             Height="120"/>
         </StackPanel>

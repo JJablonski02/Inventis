@@ -23,6 +23,14 @@ internal sealed class ReadWriteProductRepository(
 		.Where(predicate)
 		.ToListAsync(cancellationToken);
 
+	public async Task<IReadOnlyCollection<Product>> WhereWithLogsAsync(
+		Expression<Func<Product, bool>> predicate,
+		CancellationToken cancellationToken)
+		=> await dbContext.Set<Product>()
+		.Include(x => x.InventoryMovementLogs)
+		.Where(predicate)
+		.ToListAsync(cancellationToken);
+
 	public async Task<bool> AnyAsync(
 	Expression<Func<Product, bool>> expression,
 	CancellationToken cancellationToken)
@@ -35,6 +43,7 @@ internal sealed class ReadWriteProductRepository(
 
 	public async Task<Product> GetByIdAsync(Ulid ProductId, CancellationToken cancellationToken)
 		=> await dbContext.Set<Product>()
+		.Include(x => x.InventoryMovementLogs)
 		.SingleOrDefaultAsync(prod => prod.Id == ProductId, cancellationToken)
 		?? throw new NotFoundException(nameof(Product));
 

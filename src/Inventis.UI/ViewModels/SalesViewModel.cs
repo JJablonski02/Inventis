@@ -73,6 +73,7 @@ internal sealed partial class SalesViewModel(
 		{
 			if (!IsDailyInventoryReportOpen)
 			{
+				await windowHandler.OpenDialogErrorWindow<MainWindow>("Raport dobowy nie został otwarty!");
 				return;
 			}
 

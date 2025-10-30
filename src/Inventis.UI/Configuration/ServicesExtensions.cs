@@ -38,7 +38,9 @@ internal static class ServicesExtensions
 		.AddTransient<SalesViewModel>()
 		.AddTransient<InventoryViewModel>()
 		.AddTransient<PrintEanViewModel>()
-		.AddTransient<EditScanRowViewModel>();
+		.AddTransient<EditScanRowViewModel>()
+		.AddTransient<InventoryMovementLogViewModel>()
+		.AddTransient<DailyReportsViewModel>();
 
 	private static IServiceCollection AddHandlersConfiguration(this IServiceCollection services)
 		=> services.AddTransient<IWindowHandler, WindowHandler>()

@@ -52,18 +52,9 @@
 						BorderThickness="1" Padding="10" CornerRadius="5"
 						IsVisible="{Binding IsCancelAction}">
 					<StackPanel Spacing="10">
-						<TextBlock Text="Wybierz stos, z którego zmniejszyć ilość:" FontWeight="SemiBold"/>
-						<ComboBox ItemsSource="{Binding StackOptions}"
-								  Width="270"
-								  SelectedItem="{Binding SelectedStack}">
-							<ComboBox.ItemTemplate>
-								<DataTemplate>
-									<TextBlock Text="{Binding Name}" />
-								</DataTemplate>
-							</ComboBox.ItemTemplate></ComboBox>
+						<TextBlock Text="Anuluj zeskanowany produkt" FontWeight="SemiBold"/>
 						<controls:ConfirmationButton
 						Text="Anuluj skan"
-						Margin="0 100 0 0"
 						Command="{Binding CancelScanCommand}"
 						Width="200"/>
 					</StackPanel>

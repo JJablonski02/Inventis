@@ -1,4 +1,5 @@
-﻿using Avalonia.Controls;
+﻿using System.ComponentModel;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
@@ -9,34 +10,30 @@ using Inventis.UI.Handlers;
 using Inventis.UI.Handlers.Interfaces;
 using Inventis.UI.Models;
 using Inventis.UI.Router;
+using Inventis.UI.Services;
 using Inventis.UI.Views;
-using Tmds.DBus.Protocol;
 
 namespace Inventis.UI.ViewModels;
 
 internal sealed partial class MainViewModel : ViewModelBase
 {
 	private readonly IWindowHandler _windowHandler;
+	private readonly ISessionService _sessionService;
 
 	public MainViewModel(
 		IHistoryRouter<ViewModelBase> historyRouter,
-		IWindowHandler windowHandler,
-		UiState uiState)
+		ISessionService sessionService,
+		IWindowHandler windowHandler)
 	{
 		// Registers the event for the current ViewModel change in the router,
 		// to set the content to the new ViewModel when the route changes.
 		historyRouter.CurrentViewModelChanged += viewModel => Content = viewModel;
 		InitializeTimer();
-		UiState = uiState;
 		_windowHandler = windowHandler;
+		_sessionService = sessionService;
+		_sessionService.PropertyChanged += SessionService_PropertyChanged;
 		historyRouter.GoTo<LoginViewModel>();
 	}
-
-	/// <summary>
-	/// Current UI state
-	/// </summary>
-	[ObservableProperty]
-	private UiState _uiState;
 
 	/// <summary>
 	/// Variable to store the current ViewModel that is displayed in the view.
@@ -85,6 +82,20 @@ internal sealed partial class MainViewModel : ViewModelBase
 		if ((sender as WindowButton)?.GetVisualRoot() is Window window)
 		{
 			window.WindowState = WindowState.Minimized;
+		}
+	}
+
+	/// <summary>
+	/// Updates state based on the provided CurrentUser model.
+	/// </summary>
+	/// <param name="sender">Sender object</param>
+	/// <param name="e">Event</param>
+	private void SessionService_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+	{
+		if (e.PropertyName == nameof(_sessionService.CurrentUser))
+		{
+			TitleBar.CurrentUser = _sessionService.CurrentUser;
+			TitleBar.IsLoggedIn = _sessionService.CurrentUser is not null;
 		}
 	}
 }

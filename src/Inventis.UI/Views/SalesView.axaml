@@ -1,69 +1,76 @@
 ﻿<UserControl xmlns="https://github.com/avaloniaui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Inventis.UI.Views.SalesView"
-             xmlns:controls="using:Inventis.UI.Controls"
-             xmlns:vm="using:Inventis.UI.ViewModels"
-             x:Name="Sales"
-             x:DataType="vm:SalesViewModel">
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+			 x:Class="Inventis.UI.Views.SalesView"
+			 xmlns:controls="using:Inventis.UI.Controls"
+			 xmlns:vm="using:Inventis.UI.ViewModels"
+			 x:Name="Sales"
+			 x:DataType="vm:SalesViewModel">
 
-    <DockPanel Margin="10" LastChildFill="True">
-        <!-- Dolny pasek z datą otwarcia raportu -->
-        <TextBlock DockPanel.Dock="Bottom"
-                   Background="{DynamicResource Background-Dark}"
-                   Margin="0,0,0,0"
-                   Padding="10 10 10 10"
-                   TextAlignment="Right"
-                   FontSize="14"
-                   Text="{Binding OpenedAt, StringFormat='Data otwarcia raportu dobowego: {0}'}"/>
+	<DockPanel Margin="10" LastChildFill="True">
+		<!-- Dolny pasek z datą otwarcia raportu -->
+		<TextBlock DockPanel.Dock="Bottom"
+				   Background="{DynamicResource Background-Dark}"
+				   Margin="0,0,0,0"
+				   Padding="10 10 10 10"
+				   TextAlignment="Right"
+				   FontSize="14"
+				   Text="{Binding OpenedAt, StringFormat='Data otwarcia raportu dobowego: {0}'}"/>
 
-        <!-- Górne przyciski -->
-        <StackPanel DockPanel.Dock="Top"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Left"
-                    Margin="0,0,0,10"
-                    Spacing="10">
-            <controls:ConfirmationButton 
-                Text="Rozpocznij raport dobowy"
-                IsVisible="{Binding !IsDailyInventoryReportOpen}"
-                Command="{Binding OpenDailyInventoryReportCommand}" 
-                Width="200"/>
-            
-            <controls:ConfirmationButton 
-                Text="Zamknij raport dobowy"
-                IsVisible="{Binding IsDailyInventoryReportOpen}"
-                Command="{Binding CloseDailyInventoryReportCommand}" 
-                Width="200"/>
-        </StackPanel>
+		<!-- Górne przyciski -->
+		<StackPanel DockPanel.Dock="Top"
+					Orientation="Horizontal"
+					HorizontalAlignment="Left"
+					Margin="0,0,0,10"
+					Spacing="10">
+			<controls:ConfirmationButton
+			Text="Rozpocznij raport dobowy"
+			IsVisible="{Binding !IsDailyInventoryReportOpen}"
+			Command="{Binding OpenDailyInventoryReportCommand}"
+			Width="200"/>
 
-        <!-- Główna tabela -->
-        <DataGrid ItemsSource="{Binding DailyInventoryScans}" 
-                  AutoGenerateColumns="False" 
-                  IsReadOnly="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Nazwa" Binding="{Binding ProductName}" Width="*"/>
-                <DataGridTextColumn Header="Cena brutto" Binding="{Binding GrossSalePrice, StringFormat='{}{0:C}'}" Width="150"/>
-                <DataGridTextColumn Header="Utworzono" Binding="{Binding ScanTime}" Width="*"/>
+			<controls:ConfirmationButton
+			Text="Zamknij raport dobowy"
+			IsVisible="{Binding IsDailyInventoryReportOpen}"
+			Command="{Binding CloseDailyInventoryReportCommand}"
+			Width="200"/>
+		</StackPanel>
 
-                        <DataGridTemplateColumn Header="Akcje" Width="120">
-            <DataGridTemplateColumn.CellTemplate>
-                <DataTemplate>
-                    <Button 
-                            Content="Edytuj"
-                            FontSize="12"
-                            Background="{DynamicResource Primary}"
-                            Height="20"
-                            Command="{Binding $parent[UserControl].((vm:SalesViewModel)DataContext).EditRowCommand}"
-                            CommandParameter="{Binding Id}"
-                            HorizontalAlignment="Center"
-                            Padding="8,2"/>
-                </DataTemplate>
-            </DataGridTemplateColumn.CellTemplate>
-        </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-    </DockPanel>
+		<!-- Główna tabela -->
+		<DataGrid ItemsSource="{Binding DailyInventoryScans}"
+				  AutoGenerateColumns="False"
+				  IsReadOnly="True"
+				  CanUserReorderColumns="True"
+				  CanUserSortColumns="True"
+				  CanUserResizeColumns="True"
+				  RowHeight="48"
+				  >
+			<DataGrid.Columns>
+				<DataGridTextColumn Header="Nazwa" Binding="{Binding ProductName}" Width="*"/>
+				<DataGridTextColumn Header="Cena brutto" Binding="{Binding GrossSalePrice, StringFormat='{}{0:C}'}" Width="150"/>
+				<DataGridTextColumn Header="Utworzono" Binding="{Binding ScanTime}" Width="*"/>
+
+				<DataGridTemplateColumn Header="Akcje" Width="120">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<Button
+							Content="Edytuj"
+							FontSize="14"
+							Background="{DynamicResource Primary}"
+							Height="38"
+							HorizontalContentAlignment="Center"
+							VerticalContentAlignment="Center"
+							Command="{Binding $parent[UserControl].((vm:SalesViewModel)DataContext).EditRowCommand}"
+							CommandParameter="{Binding Id}"
+							HorizontalAlignment="Center"
+							Padding="8,2"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+			</DataGrid.Columns>
+		</DataGrid>
+	</DockPanel>
 
 </UserControl>

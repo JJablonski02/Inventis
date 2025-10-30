@@ -1,8 +1,6 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
-using Inventis.Domain.Products;
 using Inventis.UI.Models.Products;
 using Inventis.UI.ViewModels;
 

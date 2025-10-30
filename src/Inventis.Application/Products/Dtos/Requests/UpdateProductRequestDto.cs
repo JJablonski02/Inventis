@@ -12,6 +12,7 @@ public sealed record UpdateProductRequestDto(
 	decimal QuantityInStore,
 	decimal QuantityInBackroom,
 	decimal QuantityInWarehouse,
-	decimal VatRate,
+	decimal PurchasePriceVatRate,
+	decimal SalePriceVatRate,
 	string? ProviderName,
 	string? ProviderContactDetails);

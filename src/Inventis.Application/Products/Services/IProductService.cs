@@ -1,7 +1,6 @@
 ﻿using Inventis.Application.Products.Dtos;
 using Inventis.Application.Products.Dtos.Requests;
 using Inventis.Domain.Products;
-using Inventis.Domain.Products.Constants;
 using Inventis.Domain.Products.Repositories;
 using Inventis.Domain.Products.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,8 +17,6 @@ public interface IProductService
 	Task CreateAsync(CreateProductRequestDto request, CancellationToken cancellationToken);
 
 	Task UpdateAsync(UpdateProductRequestDto request, CancellationToken cancellationToken);
-
-	Task DecreaseSingleQuantityAsync(Ulid productId, QuantityType quantityType, CancellationToken cancellationToken);
 }
 
 internal sealed class ProductService(
@@ -64,7 +61,8 @@ internal sealed class ProductService(
 				request.QuantityInStore,
 				request.QuantityInBackroom,
 				request.QuantityInWarehouse,
-				request.VatRate,
+				request.PurchasePriceVatRate,
+				request.SalePriceVatRate,
 				request.ProviderName,
 				request.ProviderContactDetails);
 
@@ -94,7 +92,8 @@ internal sealed class ProductService(
 				request.QuantityInStore,
 				request.QuantityInBackroom,
 				request.QuantityInWarehouse,
-				request.VatRate,
+				request.PurchasePriceVatRate,
+				request.SalePriceVatRate,
 				request.ProviderName,
 				request.ProviderContactDetails);
 
@@ -111,20 +110,5 @@ internal sealed class ProductService(
 			var product = await productRepository.GetByIdAsync(productId, cancellationToken);
 
 			return product.ToDto();
-		});
-
-	public Task DecreaseSingleQuantityAsync(
-		Ulid productId,
-		QuantityType quantityType,
-		CancellationToken cancellationToken)
-		=> UseScopeAsync(async (scope) =>
-		{
-			var productRepository = scope.GetRequiredService<IReadWriteProductRepository>();
-
-			var product = await productRepository.GetByIdAsync(productId, cancellationToken);
-
-			product.DecreaseSingleQuantity(quantityType);
-
-			await productRepository.SaveChangesAsync(cancellationToken);
 		});
 }

@@ -5,19 +5,22 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              xmlns:controls="using:Inventis.UI.Controls"
              xmlns:converter="using:Inventis.UI.Converters"
+             xmlns:model="using:Inventis.UI.Models"
              xmlns:vm="using:Inventis.UI.ViewModels"
              x:DataType="vm:MainViewModel"
-             x:Class="Inventis.UI.Views.MainView">
+             x:Class="Inventis.UI.Views.MainView"
+             x:CompileBindings="True">
 <UserControl.Resources>
         <converter:TopBarTemplateConverter x:Key="TopBarTemplateConverter">
             <converter:TopBarTemplateConverter.TopBarTemplateLoggedIn>
-                <DataTemplate>
+                <DataTemplate DataType="model:TitleBarModel">
                     <Grid Margin="20" ColumnDefinitions="Auto, *, Auto">
                         <StackPanel Grid.Column="0" VerticalAlignment="Center" Orientation="Horizontal">
                             <Image
                                 Height="50"
-                                Source="avares://Inventis.UI/Assets/inventis.png"
-                                Margin="0 0 20 0"/>
+                                Source="avares://Inventis.UI/Assets/Inventis.png"
+                                Margin="0 0 20 0"
+                                Width="200"/>
                             <TextBlock
                                 Text=" | "
                                 VerticalAlignment="Center"
@@ -26,8 +29,13 @@
                                 TextWrapping="Wrap"
                                 TextTrimming="CharacterEllipsis"
                                 VerticalAlignment="Center"
+                                Text="{Binding CurrentUser.FullName}"
                                 Foreground="{DynamicResource White}"/>
                         </StackPanel>
+
+                        <UniformGrid Grid.Column="1" Columns="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+							<TextBlock Text="{Binding CurrentTime}"/>
+                        </UniformGrid>
 
                         <Grid ColumnDefinitions="Auto, Auto" Grid.Column="2" HorizontalAlignment="Right">
                             <controls:WindowButton Variant="Minify" Margin="0 0 5 0"
@@ -59,9 +67,11 @@
                             Source="avares://Inventis.UI/Assets/Inventis.png"
                             Margin="0 0 20 0"/>
                         <StackPanel Grid.Column="2" HorizontalAlignment="Right" Orientation="Horizontal">
+
                             <controls:WindowButton Variant="Minify" Margin="0 0 5 0"
                                                    Command="{Binding $parent[ContentControl].((vm:MainViewModel)DataContext).MinifyWindowCommand}"
                                                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
+
                             <controls:WindowButton Variant="Close" Margin="5 0 0 0"
                                                    Command="{Binding $parent[ContentControl].((vm:MainViewModel)DataContext).CloseWindowCommand}"
                                                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
@@ -77,7 +87,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!--Header-->
@@ -93,14 +102,6 @@
         <ContentControl
             Grid.Row="1"
             Background="{DynamicResource Background}"
-            Content="{Binding Content}"
-            IsEnabled="True"/>
-        <StackPanel
-            Grid.Row="2"
-            IsVisible="{Binding UiState.IsBusy}"
-            VerticalAlignment="Bottom"
-            HorizontalAlignment="Right"
-            Height="30">
-        </StackPanel>
+            Content="{Binding Content}"/>
     </Grid>
 </UserControl>

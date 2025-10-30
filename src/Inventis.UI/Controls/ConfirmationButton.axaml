@@ -38,7 +38,7 @@
     Command="{Binding #Root.Command}"
     Height="{Binding #Root.Height}"
     CornerRadius="20"
-    Background="{DynamicResource Primary}"
+    Background="{Binding #Root.Background}"
     IsEnabled="{Binding IsEnabled, RelativeSource={RelativeSource AncestorType=UserControl}}"
     CommandParameter="{Binding #Root.CommandParameter}">
         <StackPanel>

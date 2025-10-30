@@ -39,16 +39,34 @@
                   CanUserReorderColumns="True"
                   SelectionMode="Extended"
                   HeadersVisibility="Column"
-                  RowHeight="32"
+                  CanUserResizeColumns="True"
+                  RowHeight="48"
                   >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Nazwa produktu" Binding="{Binding Name}" Width="*" />
                 <DataGridTextColumn Header="EAN" Binding="{Binding EanCode}" Width="150" />
-                <DataGridTextColumn Header="Kwota sprzedaży brutto" Binding="{Binding GrossSalePrice, StringFormat='{}{0:C}'}" Width="150" />
-                <DataGridTextColumn Header="Całkowita ilość" Binding="{Binding TotalQuantity}" Width="100" />
-                <DataGridTextColumn Header="Ilość w sklepie" Binding="{Binding QuantityInStore}" Width="100" />
-                <DataGridTextColumn Header="Ilość na zapleczu" Binding="{Binding QuantityInBackroom}" Width="100" />
-                <DataGridTextColumn Header="Ilość w magazynie" Binding="{Binding QuantityInWarehouse}" Width="100" />
+                <DataGridTextColumn Header="Kwota sprzedaży brutto" Binding="{Binding GrossSalePrice, StringFormat='{}{0:C}'}" Width="200" />
+                <DataGridTextColumn Header="Całkowita ilość" Binding="{Binding CurrentTotalQuantity}" Width="130" />
+                <DataGridTextColumn Header="Ilość w sklepie" Binding="{Binding CurrentQuantityInStore}" Width="130" />
+                <DataGridTextColumn Header="Ilość na zapleczu" Binding="{Binding CurrentQuantityInBackroom}" Width="145" />
+                <DataGridTextColumn Header="Ilość w magazynie" Binding="{Binding CurrentQuantityInWarehouse}" Width="140" />
+                <DataGridTemplateColumn Header="Akcje" Width="120">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<Button
+							Content="Przeglądaj"
+							FontSize="14"
+							Background="{DynamicResource Primary}"
+							Height="38"
+                            VerticalContentAlignment="Center"
+                            HorizontalContentAlignment="Center"
+							Command="{Binding $parent[UserControl].((vm:ProductsViewModel)DataContext).OpenInventoryMovementLogCommand}"
+							CommandParameter="{Binding Id}"
+							HorizontalAlignment="Center"
+							Padding="8,2"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

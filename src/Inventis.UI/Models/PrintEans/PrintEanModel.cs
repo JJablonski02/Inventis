@@ -17,7 +17,8 @@ internal sealed partial class PrintEanModel : ObservableObject
 	public decimal QuantityInStore { get; set; }
 	public decimal QuantityInBackroom { get; set; }
 	public decimal QuantityInWarehouse { get; set; }
-	public decimal VatRate { get; set; }
+	public decimal PurchasePriceVatRate { get; set; }
+	public decimal SalePriceVatRate { get; set; }
 	public string? ProviderName { get; set; }
 	public string? ProviderContactDetails { get; set; }
 
@@ -42,18 +43,19 @@ internal sealed partial class PrintEanModel : ObservableObject
 			GrossPurchasePrice = product.GrossPurchasePrice,
 			NetSalePrice = product.NetSalePrice,
 			GrossSalePrice = product.GrossSalePrice,
-			TotalQuantity = product.TotalQuantity,
-			QuantityInStore = product.QuantityInStore,
-			QuantityInBackroom = product.QuantityInBackroom,
-			QuantityInWarehouse = product.QuantityInWarehouse,
-			VatRate = product.VatRate,
+			TotalQuantity = product.CurrentTotalQuantity,
+			QuantityInStore = product.CurrentQuantityInStore,
+			QuantityInBackroom = product.CurrentQuantityInBackroom,
+			QuantityInWarehouse = product.CurrentQuantityInWarehouse,
+			PurchasePriceVatRate = product.PurchasePriceVatRate,
+			SalePriceVatRate = product.SalePriceVatRate,
 			ProviderName = product.ProviderName,
 			ProviderContactDetails = product.ProviderContactDetails,
 
 			PrintFromShop = true,
 			PrintFromBackroom = true,
 			PrintFromWarehouse = true,
-			LabelCount = (int)Math.Round(product.TotalQuantity),
+			LabelCount = (int)Math.Round(product.CurrentTotalQuantity),
 			IsSelected = isSelected
 		};
 	}

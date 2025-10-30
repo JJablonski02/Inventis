@@ -25,10 +25,14 @@ public sealed class DailyInventoryReport : Entity
 	public static DailyInventoryReport Create()
 		=> new(DateTime.Now);
 
-	public void AddScan(Ulid productId)
+	public Ulid AddScan(Ulid productId)
 	{
-		_dailyScans.Add(DailyInventoryScan.Create(
-				productId));
+		var scan = DailyInventoryScan.Create(
+				productId);
+
+		_dailyScans.Add(scan);
+
+		return scan.Id;
 	}
 
 	public void DeleteSoftScan(Ulid scanId)

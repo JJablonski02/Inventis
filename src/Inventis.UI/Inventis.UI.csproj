@@ -5,13 +5,10 @@
     <Nullable>enable</Nullable>
     <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
     <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets/favicon.ico</ApplicationIcon>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
 
-    <SelfContained>true</SelfContained>
-    <PublishSingleFile>true</PublishSingleFile>
-    <PublishTrimmed>false</PublishTrimmed>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-    <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
   </PropertyGroup>
 
   <ItemGroup>
@@ -60,6 +57,9 @@
     <Compile Update="Views\HomeView.axaml.cs">
       <DependentUpon>HomeView.axaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\DailyReportsView.axaml.cs">
+      <DependentUpon>DailyReportsView.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\InventoryView.axaml.cs">
       <DependentUpon>InventoryView.axaml</DependentUpon>
     </Compile>
@@ -75,6 +75,12 @@
     <Compile Update="Views\PrintEanView.axaml.cs">
       <DependentUpon>PrintEanView.axaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\InventoryMovementLogWindow.axaml.cs">
+      <DependentUpon>InventoryMovementLogWindow.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\InventoryMovementLogView.axaml.cs">
+      <DependentUpon>InventoryMovementLogView.axaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\ProductWindow.axaml.cs">
       <DependentUpon>ProductWindow.axaml</DependentUpon>
     </Compile>
@@ -88,6 +94,9 @@
 
   <ItemGroup>
     <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\favicon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

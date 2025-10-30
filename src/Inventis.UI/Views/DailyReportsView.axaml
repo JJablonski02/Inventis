@@ -1,0 +1,46 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="1400" d:DesignHeight="1300"
+			 x:Class="Inventis.UI.Views.DailyReportsView"
+			 xmlns:controls="using:Inventis.UI.Controls"
+			 xmlns:vm="using:Inventis.UI.ViewModels"
+			 x:DataType="vm:DailyReportsViewModel">
+	<Grid RowDefinitions="Auto, *" Background="{DynamicResource Background}">
+        <!-- 🔹 Tabela raportów -->
+        <DataGrid Grid.Row="1"
+                  x:Name="ReportsDataGrid"
+                  ItemsSource="{Binding Reports}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  CanUserReorderColumns="True"
+                  SelectionMode="Extended"
+                  HeadersVisibility="Column"
+                  RowHeight="48"
+                  >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Identyfikator raportu" Binding="{Binding Id}" Width="*" />
+                <DataGridTextColumn Header="Data otwarcia" Binding="{Binding CreatedAt}" Width="200" />
+                <DataGridTextColumn Header="Data zamknięcia" Binding="{Binding ClosedAt}" Width="200" />
+                <DataGridTemplateColumn Header="Akcje" Width="120">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<Button
+							Content="Przeglądaj"
+							FontSize="14"
+							Background="{DynamicResource Primary}"
+							Height="38"
+                            VerticalContentAlignment="Center"
+                            HorizontalContentAlignment="Center"
+							CommandParameter="{Binding Id}"
+							IsEnabled="False"
+							HorizontalAlignment="Center"
+							Padding="8,2"/>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Inventis.Application.Products.Dtos;
 using Inventis.Application.Products.Dtos.Requests;
@@ -98,9 +99,7 @@ internal sealed partial class ProductViewModel(
 
 	[RelayCommand]
 	public void GenerateEan()
-	{
-		Product.EanCode = productService.GenerateEan13();
-	}
+		=> Product.EanCode = productService.GenerateEan13();
 
 	private async Task<CreateProductRequestDto?> CreateProductRequest()
 	{
@@ -125,7 +124,8 @@ internal sealed partial class ProductViewModel(
 			model.QuantityInStoreReal!.Value,
 			model.QuantityInBackroomReal!.Value,
 			model.QuantityInWarehouseReal!.Value,
-			model.VatRateReal!.Value,
+			model.PurchasePriceVatRate.Value,
+			model.SalePriceVatRate.Value,
 			model.ProviderName,
 			model.ProviderContactDetails);
 	}
@@ -154,7 +154,8 @@ internal sealed partial class ProductViewModel(
 			model.QuantityInStoreReal!.Value,
 			model.QuantityInBackroomReal!.Value,
 			model.QuantityInWarehouseReal!.Value,
-			model.VatRateReal!.Value,
+			model.PurchasePriceVatRate.Value,
+			model.SalePriceVatRate.Value,
 			model.ProviderName,
 			model.ProviderContactDetails);
 	}
@@ -205,8 +206,6 @@ internal sealed partial class ProductViewModel(
 				return "Pole 'Ilość na zapleczu' jest wymagane";
 			case { QuantityInWarehouseReal: null }:
 				return "Pole 'Ilość w magazynie' jest wymagane";
-			case { VatRateReal: null }:
-				return "Pole 'Stawka VAT' jest wymagane";
 			default:
 				return null;
 		}

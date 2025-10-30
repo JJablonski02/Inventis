@@ -10,4 +10,5 @@ public interface IReadDailyInventoryReportRepository
 	Task<DailyInventoryReport> GetByIdAsync(Ulid id, CancellationToken cancellationToken);
 	Task<DailyInventoryReport> SingleOrDefaultAsync(Expression<Func<DailyInventoryReport, bool>> expression, CancellationToken cancellationToken);
 	Task<bool> AnyAsync(Expression<Func<DailyInventoryReport, bool>> expression, CancellationToken cancellationToken);
+	Task<IReadOnlyCollection<DailyInventoryReport>> GetAllAsync(CancellationToken cancellationToken);
 }

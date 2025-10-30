@@ -1,0 +1,67 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 mc:Ignorable="d" d:DesignWidth="1400" d:DesignHeight="1300"
+			 x:Class="Inventis.UI.Views.InventoryMovementLogView"
+			 xmlns:controls="using:Inventis.UI.Controls"
+			 xmlns:vm="using:Inventis.UI.ViewModels"
+			 x:DataType="vm:InventoryMovementLogViewModel">
+	<Grid RowDefinitions="Auto, *" Background="{DynamicResource Background}">
+		<Grid Grid.Row="0" Background="{DynamicResource Background-Dark}">
+			<Border
+			Padding="10"
+			HorizontalAlignment="Right">
+				<controls:WindowButton Variant="Close"
+									   Command="{Binding CloseWindowCommand}"/>
+			</Border>
+		</Grid>
+
+		<Grid Grid.Row="1" RowDefinitions="Auto, Auto" Margin="20">
+			<TextBlock Grid.Row="0"
+					   Text="{Binding ProductName}"
+					   FontSize="20"
+					   FontWeight="Bold"
+					   Margin="10"
+					   Foreground="White"
+					   TextTrimming="CharacterEllipsis"/>
+
+			<DataGrid Grid.Row="1"
+					  x:Name="LogsDataGrid"
+					  ItemsSource="{Binding Logs}"
+					  AutoGenerateColumns="False"
+					  IsReadOnly="True"
+					  CanUserReorderColumns="True"
+					  SelectionMode="Extended"
+					  HeadersVisibility="Column"
+					  RowHeight="32"
+					  >
+				<DataGrid.Columns>
+
+					<!-- Action -->
+					<DataGridTextColumn Header="Akcja" Binding="{Binding Action}" />
+
+					<!-- Direction -->
+					<DataGridTextColumn Header="Kierunek" Binding="{Binding Direction}" />
+
+					<!-- Data utworzenia -->
+					<DataGridTextColumn Header="Data" Binding="{Binding CreatedAt, StringFormat=dd.MM.yyyy HH:mm:ss}" />
+
+					<!-- Current quantities before -->
+					<DataGridTextColumn Header="Całkowita ilość (przed)" Binding="{Binding TotalCurrentQuantityBefore}" />
+					<DataGridTextColumn Header="Całkowita ilość (po)" Binding="{Binding TotalCurrentQuantityAfter}" />
+
+					<DataGridTextColumn Header="Sklep (przed)" Binding="{Binding CurrentQuantityInStoreBefore}" />
+					<DataGridTextColumn Header="Zaplecze (przed)" Binding="{Binding CurrentQuantityInBackroomBefore}" />
+					<DataGridTextColumn Header="Magazyn (przed)" Binding="{Binding CurrentQuantityInWarehouseBefore}" />
+
+					<!-- Current quantities after -->
+					<DataGridTextColumn Header="Sklep (po)" Binding="{Binding CurrentQuantityInStoreAfter}" />
+					<DataGridTextColumn Header="Zaplecze (po)" Binding="{Binding CurrentQuantityInBackroomAfter}" />
+					<DataGridTextColumn Header="Magazyn (po)" Binding="{Binding CurrentQuantityInWarehouseAfter}" />
+
+				</DataGrid.Columns>
+			</DataGrid>
+		</Grid>
+	</Grid>
+</UserControl>
